@@ -11,7 +11,7 @@ const Header = styled.div`
 class AppHeader extends React.Component {
   render() {
     return (
-      <Header></Header>
+      <Header>{this.props.activeUser.name}</Header>
     )
   }
 }

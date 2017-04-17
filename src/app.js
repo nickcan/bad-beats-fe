@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Route, Switch } from "react-router-dom";
 import React from "react";
 
@@ -16,7 +17,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props.match)
     return (
       <div>
         <AppHeader activeUser={this.props.activeUser} />
@@ -32,12 +32,7 @@ class App extends React.Component {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    authenticateUser: function(userAuthInfo) {
-      dispatch(ActiveUserActions.authenticateUser(userAuthInfo));
-    },
-    initializeActiveUser: function(authToken) {
-      dispatch(ActiveUserActions.initializeActiveUser(authToken));
-    }
+    ...bindActionCreators(ActiveUserActions, dispatch)
   };
 };
 
