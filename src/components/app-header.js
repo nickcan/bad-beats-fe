@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
 
@@ -40,9 +41,10 @@ const Logo = styled.div`
   width: 42px;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainerLink = styled(Link)`
   align-items: center;
   display: flex;
+  text-decoration: none;
 `;
 
 const LogoName = styled.div`
@@ -128,10 +130,10 @@ class AppHeader extends React.Component {
     return (
       <Header>
         <InnerContainer>
-          <LogoContainer>
+          <LogoContainerLink to="/">
             <Logo></Logo>
             <LogoName>Fantasy <br /> Bad Beats</LogoName>
-          </LogoContainer>
+          </LogoContainerLink>
           <ActionBar>
             <SearchContainer>
               <SearchInput
