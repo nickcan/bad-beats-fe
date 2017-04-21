@@ -13,8 +13,14 @@ const PostsContainer = styled.div`
 
 class feed extends React.Component {
   componentWillMount() {
-    this.props.getPosts();
+    this.props.getPosts({sport: this.props.sport});
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.sport !== nextProps.sport) {
+      this.props.getPosts({sport: nextProps.sport});
+    }
+  }
 
   render() {
     if (this.props.feed.posts.length === 0) return null;

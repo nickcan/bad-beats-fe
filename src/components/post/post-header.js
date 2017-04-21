@@ -61,7 +61,7 @@ class PostHeader extends React.Component {
             <PostDate>{formattedPostDate}</PostDate>
           </div>
         </UserInfoContainer>
-        <SportLink to={`/${this.props.sport}`}>{this.props.sport}</SportLink>
+        <SportLink to={`/sports/${this.props.sport}`}>{this.props.sport}</SportLink>
       </HeaderContainer>
     );
   }

@@ -3,13 +3,14 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-  BrowserRouter as Router
+  BrowserRouter as Router,
+  Route
 } from "react-router-dom";
 import thunkMiddleware from "redux-thunk";
 
-import App from "./app";
-
 import reducer from "./reducers/index";
+
+import App from "./app";
 
 const store = createStore(
   reducer,
@@ -22,7 +23,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <Route component={App} />
     </Router>
   </Provider>,
   document.getElementById("root")

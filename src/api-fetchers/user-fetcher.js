@@ -4,7 +4,7 @@ const headers = new Headers({
   "Content-Type": "application/json"
 });
 
-const apiDomain = "http://localhost:3001";
+const apiDomain = "http://localhost:3000";
 
 export const getActiveUser = function(authToken) {
   headers.append("Authorization", authToken);

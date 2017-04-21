@@ -6,7 +6,8 @@ import React from "react";
 import * as ActiveUserActions from "./actions/active-user-actions";
 
 import AppHeader from "./components/app-header";
-import Home from "./containers/home";
+import Home from "./components/home";
+import PageNotFound from "./components/page-not-found";
 
 class App extends React.Component {
   componentDidMount() {
@@ -22,8 +23,9 @@ class App extends React.Component {
         <AppHeader activeUser={this.props.activeUser} />
 
         <Switch>
-          <Route path="/" component={Home} />
-          <Route render={() => <p>404</p>} />
+          <Route exact path="/" component={Home} />
+          <Route path="/sports/:sport" component={Home} />
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     );
