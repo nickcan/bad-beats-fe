@@ -16,7 +16,7 @@ const Header = styled.div`
   min-height: 66px;
   top: 0;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     padding: 0 20px;
   }
 `;
@@ -26,9 +26,9 @@ const InnerContainer = styled.div`
   background-color: ${UniversalStyles.colors.mediumGray};
   display: flex;
   justify-content: space-between;
-  width: 900px;
+  width: 1000px;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     width: 100%;
   }
 `;

@@ -3,21 +3,25 @@
 import React from "react";
 import styled from "styled-components";
 
+import Posts from "./feed";
+
 const FeedContainer = styled.div`
   display: flex;
   margin: 42px auto;
   height: 400px;
-  width: 700px;
+  width: 650px;
 
-  @media (max-width: 700px) {
-    width: 100%;
+  @media (max-width: 650px) {
+    width: 94%;
   }
 `;
 
 class Home extends React.Component {
   render() {
     return (
-      <FeedContainer></FeedContainer>
+      <FeedContainer>
+        <Posts />
+      </FeedContainer>
     )
   }
 };
