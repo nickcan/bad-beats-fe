@@ -23,15 +23,16 @@ class feed extends React.Component {
   }
 
   render() {
-    if (this.props.feed.posts.length === 0) return null;
+    const postsAsArray = Object.keys(this.props.feed.posts);
+    if (postsAsArray.length === 0) return null;
 
     return (
       <PostsContainer>
-        {this.props.feed.posts.map(function(post) {
+        {postsAsArray.map((postId) => {
           return (
             <Post
-              key={post.id}
-              {...post}
+              key={postId}
+              {...this.props.feed.posts[postId]}
             />
           );
         })}
