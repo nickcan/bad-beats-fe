@@ -17,7 +17,7 @@ class Post extends React.Component {
     return (
       <PostContainer>
         <PostHeader {...this.props} />
-        <PostBody />
+        <PostBody {...this.props} />
       </PostContainer>
     );
   }
