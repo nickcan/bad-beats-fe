@@ -10,6 +10,7 @@ const FeedContainer = styled.div`
   width: 650px;
 
   @media (max-width: 650px) {
+    margin: 18px auto;
     width: 94%;
   }
 `;

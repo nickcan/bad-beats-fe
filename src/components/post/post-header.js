@@ -3,8 +3,6 @@ import moment from "moment";
 import React from "react";
 import styled from "styled-components";
 
-import UniversalStyles from "../../universal-styles";
-
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -18,7 +16,7 @@ const UserInfoContainer = styled.div`
 const ProfileImage = styled(Link)`
   display: flex;
   content: '';
-  background-color: ${UniversalStyles.colors.mediumGray};
+  background-color: ${(props) => props.theme.mediumGray};
   border-radius: 2px;
   margin-right: 10px;
   width: 50px;
@@ -26,24 +24,24 @@ const ProfileImage = styled(Link)`
 `;
 
 const UsernameLink = styled(Link)`
-  color: ${UniversalStyles.colors.blue}
+  color: ${(props) => props.theme.blue}
   font-size: 18px;
   text-decoration: none;
 `;
 
 const PostDate = styled.div`
-  color: ${UniversalStyles.colors.charcoal};
+  color: ${(props) => props.theme.charcoal};
   margin-top: 3px;
   font-size: 12px;
 `;
 
 const SportLink = styled(Link)`
-  color: ${UniversalStyles.colors.mediumGray};
+  color: ${(props) => props.theme.mediumGray};
   font-size: 14px;
   text-decoration: none;
 
   &:hover {
-    color: ${UniversalStyles.colors.blue};
+    color: ${(props) => props.theme.blue};
     transition: color, .3s;
   }
 `;
