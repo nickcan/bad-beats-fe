@@ -39,8 +39,12 @@ const CommentInput = styled.input`
   border: 1px solid ${(props) => props.theme.mediumGray};
   font-size: 14px;
   outline: none;
-  padding: 5px;
+  padding: 5px 10px;
   width: 100%;
+
+  &::placeholder {
+    color: ${(props) => props.theme.mediumGray};
+  }
 `;
 
 class Comments extends React.Component {
@@ -51,7 +55,7 @@ class Comments extends React.Component {
       <CommentsContainer>
         {this.props.comments.map((comment) => {
           return (
-            <Comment>
+            <Comment key={comment.id}>
               <CommentMessage>
                 <UsernameLink to={`/users/${comment.user.id}`}>{comment.user.name}</UsernameLink>
                 {comment.message}

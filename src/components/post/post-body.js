@@ -11,12 +11,18 @@ const BodyContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
+  box-sizing: border-box;
   color: ${(props) => props.theme.charcoal};
   font-size: 18px;
   font-family: Helvetica, sans-serif;
   line-height: 22px;
   font-weight: 100;
-  padding: 0 40px 20px;
+  margin: 5px 0 20px;
+  padding: 0 40px;
+
+  @media (max-width: 500px) {
+    padding: 0 15px;
+  }
 `;
 
 const ImageContainer = styled.div`
