@@ -25,6 +25,21 @@ const feed = function(state = initialState, action) {
       };
     }
 
+    case "TOGGLE_POST_VOTE": {
+      const post = state.posts[action.payload];
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload]: {
+            ...post,
+            voteCount: post.currentUserHasVoted ? post.voteCount - 1 : post.voteCount + 1,
+            currentUserHasVoted: !post.currentUserHasVoted
+          }
+        }
+      }
+    }
+
     default: {
       return state;
     }

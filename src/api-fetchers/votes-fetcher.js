@@ -1,4 +1,4 @@
-import { camelizeKeys } from "humps";
+import { camelizeKeys, decamelizeKeys } from "humps";
 
 const headers = new Headers({
   "Authorization": localStorage.getItem("authToken"),
@@ -7,10 +7,14 @@ const headers = new Headers({
 
 const apiDomain = "http://localhost:3000";
 
-export const getPosts = function(queryParams = "") {
-  return fetch(`${apiDomain}/posts?${queryParams}`, {
-    method: "GET",
-    headers
+export const vote = function(votableId, type, requestMethod = "POST") {
+  return fetch(`${apiDomain}/votes`, {
+    body: JSON.stringify(decamelizeKeys({
+      type,
+      votableId
+    })),
+    headers,
+    method: requestMethod
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Votes from "../votes";
+
 const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,15 +29,38 @@ const ImageContainer = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  @media (max-width: 600px) {
+    min-height: 150px;
+  }
 `;
 
 class PostImage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadingStatus: "loading"
+    }
+  }
+
+  handleImageError() {
+    this.setState({ loadingStatus: "failed" });
+  }
+
+  handleImageLoaded() {
+    this.setState({ loadingStatus: "loaded" });
+  }
+
   render() {
     if (!this.props.image || !this.props.image.url) return null;
 
     return (
       <ImageContainer>
-        <img src={this.props.image.url} />
+        <img
+          src={this.props.image.url} alt=""
+          onError={() => this.handleImageError()}
+          onLoad={() => this.handleImageLoaded()}
+        />
       </ImageContainer>
     );
   }
@@ -47,6 +72,11 @@ class PostBody extends React.Component {
       <BodyContainer>
         <TextContainer>{this.props.text}</TextContainer>
         <PostImage image={this.props.images[0]} />
+        <Votes
+          currentUserHasVoted={this.props.currentUserHasVoted}
+          handleClick={() => this.props.vote(this.props.id, "Post", this.props.currentUserHasVoted)}
+          voteCount={this.props.voteCount}
+        />
       </BodyContainer>
     );
   }

@@ -1,13 +1,13 @@
 import { camelizeKeys } from "humps";
 
 const headers = new Headers({
+  "Authorization": localStorage.getItem("authToken"),
   "Content-Type": "application/json"
 });
 
 const apiDomain = "http://localhost:3000";
 
 export const getActiveUser = function(authToken) {
-  headers.append("Authorization", authToken);
   return fetch(`${apiDomain}/active_user`, {
     method: "GET",
     headers
@@ -16,7 +16,7 @@ export const getActiveUser = function(authToken) {
       const data = await response.json();
       return camelizeKeys(data);
     } else {
-      console.error("shit got fucked up with the request");
+      throw new Error(response.statusText);
     }
   })
 };
@@ -32,7 +32,7 @@ export const postAuthUser = function(userAuthData) {
       const data = await response.json();
       return camelizeKeys(data);
     } else {
-      console.error("shit got fucked up with the request");
+      throw new Error(response.statusText);
     }
   })
 };
