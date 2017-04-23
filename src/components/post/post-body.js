@@ -1,3 +1,4 @@
+import { RingLoader } from "halogen";
 import React from "react";
 import styled from "styled-components";
 
@@ -35,6 +36,19 @@ const ImageContainer = styled.div`
   }
 `;
 
+class Loader extends React.Component {
+  render() {
+    if (!this.props.isLoading) return null;
+
+    return (
+      <RingLoader
+        color="#fff"
+        size="40px"
+      />
+    );
+  }
+}
+
 class PostImage extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +70,7 @@ class PostImage extends React.Component {
 
     return (
       <ImageContainer>
+        <Loader isLoading={this.props.loadingStatus === "loading"} />
         <img
           src={this.props.image.url} alt=""
           onError={() => this.handleImageError()}

@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import PostHeader from "./post-header";
 import PostBody from "./post-body";
+import Comments from "../comments";
 
 const PostContainer = styled.div`
   background-color: ${(props) => props.theme.white};
@@ -18,6 +19,7 @@ class Post extends React.Component {
       <PostContainer>
         <PostHeader {...this.props} />
         <PostBody {...this.props} />
+        <Comments {...this.props} />
       </PostContainer>
     );
   }
