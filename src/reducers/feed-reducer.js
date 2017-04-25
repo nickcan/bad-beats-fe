@@ -1,3 +1,5 @@
+import { filter } from "lodash";
+
 const initialState = {
   posts: {}
 };
@@ -31,7 +33,22 @@ const feed = function(state = initialState, action) {
           }
         }
       }
-    };
+    }
+
+    case "REMOVE_COMMENT": {
+      const post = state.posts[action.payload.postId];
+
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload.postId]: {
+            ...post,
+            comments: filter(post.comments, (comment) => comment.id !== action.payload.id)
+          }
+        }
+      }
+    }
 
     case "INITIALIZE_POSTS": {
       return {
@@ -40,17 +57,22 @@ const feed = function(state = initialState, action) {
       };
     }
 
-    case "TOGGLE_POST_VOTE": {
-      const post = state.posts[action.payload];
+    case "UPDATE_COMMENT": {
+      const post = state.posts[action.payload.postId];
 
       return {
         ...state,
         posts: {
           ...state.posts,
-          [action.payload]: {
+          [action.payload.postId]: {
             ...post,
-            voteCount: post.currentUserHasVoted ? post.voteCount - 1 : post.voteCount + 1,
-            currentUserHasVoted: !post.currentUserHasVoted
+            comments: post.comments.map(function(comment) {
+              if (comment.id === action.payload.id) {
+                return action.payload;
+              } else {
+                return comment;
+              }
+            })
           }
         }
       }
@@ -64,8 +86,9 @@ const feed = function(state = initialState, action) {
         posts: {
           ...state.posts,
           [action.payload.id]: {
-            ...state.posts[action.payload.post.id],
-            ...post
+            ...state.posts[action.payload.id],
+            ...post,
+            comments: [...state.posts[action.payload.id].comments]
           }
         }
       }

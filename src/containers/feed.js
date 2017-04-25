@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import * as CommentsActions from "../actions/comments-actions";
 import * as FeedActions from "../actions/feed-actions";
-import * as VotesActions from "../actions/votes-actions";
 
 import Post from "../components/post";
 
@@ -33,10 +32,13 @@ class feed extends React.Component {
         {postsAsArray.map((postId) => {
           return (
             <Post
+              activeUser={this.props.activeUser}
               key={postId}
               {...this.props.feed.posts[postId]}
               createComment={this.props.createComment}
-              vote={this.props.vote}
+              deleteComment={this.props.deleteComment}
+              voteComment={this.props.voteComment}
+              votePost={this.props.votePost}
             />
           );
         })}
@@ -48,14 +50,14 @@ class feed extends React.Component {
 const mapDispatchToProps = function(dispatch) {
   return {
     ...bindActionCreators(CommentsActions, dispatch),
-    ...bindActionCreators(FeedActions, dispatch),
-    ...bindActionCreators(VotesActions, dispatch)
+    ...bindActionCreators(FeedActions, dispatch)
   };
 };
 
 const mapStateToProps = function(state) {
   return {
-    feed: state.feed
+    feed: state.feed,
+    activeUser: state.activeUser
   };
 };
 

@@ -95,7 +95,7 @@ class PostBody extends React.Component {
         <PostImage image={this.props.images[0]} />
         <Votes
           currentUserHasVoted={this.props.currentUserHasVoted}
-          handleClick={() => this.props.vote(this.props.id, "Post", this.props.currentUserHasVoted)}
+          handleClick={() => this.props.votePost(this.props.id, this.props.currentUserHasVoted)}
           voteCount={this.props.voteCount}
         />
       </BodyContainer>
