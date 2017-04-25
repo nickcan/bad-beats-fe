@@ -33,6 +33,7 @@ class feed extends React.Component {
             <Post
               key={postId}
               {...this.props.feed.posts[postId]}
+              createComment={this.props.createComment}
               vote={this.props.vote}
             />
           );

@@ -48,6 +48,26 @@ const CommentInput = styled.input`
 `;
 
 class Comments extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      newComment: ""
+    }
+  }
+
+  updateComment(event) {
+    if (event.key === "Enter") {
+      const trimmedComment = this.state.newComment.trim();
+      if (trimmedComment.length > 0) {
+        this.props.createComment({
+          message: trimmedComment,
+          postId: this.props.id
+        });
+        this.setState({newComment: ""});
+      }
+    }
+  }
+
   render() {
     const formattedCommentDate = moment(this.props.createdAt).format("MMMM Do, h:mm a");
 
@@ -64,7 +84,12 @@ class Comments extends React.Component {
             </Comment>
           );
         })}
-        <CommentInput placeholder="Write comment..." />
+        <CommentInput
+          placeholder="Write comment..."
+          value={this.state.newComment}
+          onChange={(event) => this.setState({newComment: event.target.value})}
+          onKeyPress={(event) => this.updateComment(event)}
+        />
       </CommentsContainer>
     );
   }
