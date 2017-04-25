@@ -63,7 +63,10 @@ const feed = function(state = initialState, action) {
         ...state,
         posts: {
           ...state.posts,
-          [action.payload.id]: post
+          [action.payload.id]: {
+            ...state.posts[action.payload.post.id],
+            ...post
+          }
         }
       }
     }

@@ -3,7 +3,9 @@ import { bindActionCreators } from "redux";
 import React from "react";
 import styled from "styled-components";
 
+import * as CommentsActions from "../actions/comments-actions";
 import * as FeedActions from "../actions/feed-actions";
+import * as VotesActions from "../actions/votes-actions";
 
 import Post from "../components/post";
 
@@ -45,7 +47,9 @@ class feed extends React.Component {
 
 const mapDispatchToProps = function(dispatch) {
   return {
-    ...bindActionCreators(FeedActions, dispatch)
+    ...bindActionCreators(CommentsActions, dispatch),
+    ...bindActionCreators(FeedActions, dispatch),
+    ...bindActionCreators(VotesActions, dispatch)
   };
 };
 
