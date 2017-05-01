@@ -1,14 +1,13 @@
 import { camelizeKeys, decamelizeKeys } from "humps";
+import ENV_CONFIG from "./env-config";
 
 const headers = new Headers({
   "Authorization": localStorage.getItem("authToken"),
   "Content-Type": "application/json"
 });
 
-const apiDomain = "http://localhost:3000";
-
 export const vote = function(votableId, type, requestMethod = "POST") {
-  return fetch(`${apiDomain}/votes`, {
+  return fetch(`${ENV_CONFIG.apiDomain}/votes`, {
     body: JSON.stringify(decamelizeKeys({
       type,
       votableId

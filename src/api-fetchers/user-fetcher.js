@@ -1,14 +1,13 @@
 import { camelizeKeys } from "humps";
+import ENV_CONFIG from "./env-config";
 
 const headers = new Headers({
   "Authorization": localStorage.getItem("authToken"),
   "Content-Type": "application/json"
 });
 
-const apiDomain = "http://localhost:3000";
-
 export const getActiveUser = function(authToken) {
-  return fetch(`${apiDomain}/active_user`, {
+  return fetch(`${ENV_CONFIG.apiDomain}/active_user`, {
     method: "GET",
     headers
   }).then(async function(response) {
@@ -22,7 +21,7 @@ export const getActiveUser = function(authToken) {
 };
 
 export const postAuthUser = function(userAuthData) {
-  return fetch(`${apiDomain}/auth_user`, {
+  return fetch(`${ENV_CONFIG.apiDomain}/auth_user`, {
     body: JSON.stringify(userAuthData),
     method: "POST",
     headers,

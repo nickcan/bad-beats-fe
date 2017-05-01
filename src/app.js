@@ -10,10 +10,11 @@ import Home from "./components/home";
 import PageNotFound from "./components/page-not-found";
 
 class App extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
-      this.props.initializeActiveUser(authToken);
+      props.initializeActiveUser(authToken);
     }
   }
 

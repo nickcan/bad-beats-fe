@@ -1,14 +1,13 @@
 import { camelizeKeys } from "humps";
+import ENV_CONFIG from "./env-config";
 
 const headers = new Headers({
   "Authorization": localStorage.getItem("authToken"),
   "Content-Type": "application/json"
 });
 
-const apiDomain = "http://localhost:3000";
-
 export const getPosts = function(queryParams = "") {
-  return fetch(`${apiDomain}/posts?${queryParams}`, {
+  return fetch(`${ENV_CONFIG.apiDomain}/posts?${queryParams}`, {
     method: "GET",
     headers
   }).then(async function(response) {
