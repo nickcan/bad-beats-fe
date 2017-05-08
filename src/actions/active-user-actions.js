@@ -12,9 +12,9 @@ export const authenticateUser = function(userAuthInfo) {
   };
 };
 
-export const initializeActiveUser = function(authToken) {
+export const initializeActiveUser = function() {
   return async function(dispatch) {
-    const response = await UserFetcher.getActiveUser(authToken);
+    const response = await UserFetcher.getActiveUser();
     dispatch(initializeActiveUserData(response));
   };
 };
