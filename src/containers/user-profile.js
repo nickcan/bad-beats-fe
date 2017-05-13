@@ -3,7 +3,12 @@ import { bindActionCreators } from "redux";
 import React from "react";
 import styled from "styled-components";
 
+import { getFollowers } from "../api-fetchers/user-fetcher";
+
 import * as UserProfileActions from "../actions/user-profile-actions";
+
+import ListOfUsers from "../components/list-of-users";
+import Feed from "./feed";
 
 const Canopy = styled.div`
   display: flex;
@@ -36,10 +41,15 @@ const InfoContainer = styled.div`
 
   margin: 60px auto;
   width: 650px;
+
+  @media (max-width: 650px) {
+    width: 100%;
+  }
 `;
 
 const Name = styled.div`
-  margin-bottom: 20px;
+  height: 40px;
+  margin-bottom: 10px;
 
   font-family: Helvetica, sans-serif;
   font-size: 32px;
@@ -47,10 +57,12 @@ const Name = styled.div`
 `;
 
 const ShortBio = styled.div`
+  height: 40px;
+  margin-bottom: 5px;
+
   color: gray;
   font-size: 20px;
   text-align: center;
-  margin-bottom: 25px;
 `;
 
 const FollowButton = styled.div`
@@ -61,19 +73,95 @@ const FollowButton = styled.div`
   height: 50px;
   width: 215px;
 
-  background-color: gray;
+  background-color: ${(props) => props.isFollowing ? "gray" : "white"};
+  border: 2px solid gray;
   border-radius: 40px;
 
-  color: white;
+  transition: background-color, border, color, .1s;
+
+  color: ${(props) => props.isFollowing ? "white" : "gray"};
   font-size: 20px;
 
   cursor: pointer;
+`;
+
+const TabsContainer = styled.div`
+  width: 100%;
+  margin-top: 40px;
+`;
+
+const TabListContainer = styled.div`
+  display: flex;
+
+  margin-bottom: 10px;
+  width: 100%;
+
+  background-color: white;
+  border-radius: 2px;
+`;
+
+const StyledTab = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0;
+
+  height: 70px;
+
+  border: 1px solid #D8D8D8;
+  border-left: 0;
+
+  font-size: 20px;
+  text-align: center;
+
+  cursor: pointer;
+
+  &:last-child {
+    border-right: 0;
+  }
+`;
+
+const Following = styled.div`
+  width: 100%;
+  height: 300px;
+  background-color: red;
 `;
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     props.initialize(props.match.params.id);
+
+    this.state = {
+      activeTab: "posts"
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.id !== nextProps.match.params.id) {
+      this.props.initialize(nextProps.match.params.id);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetUserProfile();
+  }
+
+  determineActiveSection() {
+    if (this.state.activeTab === "posts") {
+      if (this.props.id) {
+        return <Feed userId={this.props.id} />
+      }
+    }
+    if (this.state.activeTab === "followers") {
+      if (this.props.id) {
+        return <ListOfUsers />
+      }
+    }
+    if (this.state.activeTab === "following") {
+      return <Following />
+    }
   }
 
   render() {
@@ -85,9 +173,44 @@ class UserProfile extends React.Component {
         <InfoContainer>
           <Name>{this.props.name}</Name>
           <ShortBio>{this.props.shortBio}</ShortBio>
-          <FollowButton onClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}>
+          <FollowButton
+            isFollowing={this.props.isActiveUserFollowing}
+            onClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
+          >
             {this.props.isActiveUserFollowing ? "Following" : "Follow"}
           </FollowButton>
+          <TabsContainer>
+            <TabListContainer>
+              <StyledTab
+                isActive={this.state.activeTab === "posts"}
+                onClick={() => this.setState({activeTab: "posts"})}
+              >
+                <div>
+                  {this.props.postCount}
+                </div>
+                Posts
+              </StyledTab>
+              <StyledTab
+                isActive={this.state.activeTab === "followers"}
+                onClick={() => this.setState({activeTab: "followers"})}
+              >
+                <div>
+                  {this.props.followerCount}
+                </div>
+                Followers
+              </StyledTab>
+              <StyledTab
+                isActive={this.state.activeTab === "following"}
+                onClick={() => this.setState({activeTab: "following"})}
+              >
+                <div>
+                  {this.props.followingCount}
+                </div>
+                Following
+              </StyledTab>
+            </TabListContainer>
+          </TabsContainer>
+          {this.determineActiveSection()}
         </InfoContainer>
       </div>
     );

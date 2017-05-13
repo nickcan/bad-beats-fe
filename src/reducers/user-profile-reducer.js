@@ -3,9 +3,9 @@ const initialState = {
   email: "",
   image_url: "",
   name: "",
-  follower_count: null,
-  following_count: null,
-  activeUserIsFollowing: false
+  followerCount: null,
+  followingCount: null,
+  isActiveUserFollowing: false
 }
 
 const userProfile = function(state = initialState, action) {
@@ -22,6 +22,10 @@ const userProfile = function(state = initialState, action) {
         ...state,
         ...action.payload
       }
+    }
+
+    case "RESET_USER_PROFILE": {
+      return initialState;
     }
 
     default: {

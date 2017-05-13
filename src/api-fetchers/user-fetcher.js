@@ -65,3 +65,17 @@ export const postFollowing = function(request, requestType) {
   })
 }
 
+export const getFollowers = function(userId) {
+  return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/followers`, {
+    method: "GET",
+    headers
+  }).then(async function(response) {
+    if (response.ok) {
+      const data = await response.json();
+      return camelizeKeys(data);
+    } else {
+      throw new Error(response.statusText);
+    }
+  })
+}
+

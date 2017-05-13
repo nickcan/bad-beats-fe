@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const createPostsObject = function(postsArray = [], postsObject = {}, currentIndex = 0) {
-  if (postsArray.length - 1 <= currentIndex) {
+  if (currentIndex >= postsArray.length) {
     return postsObject;
   } else {
     const nextPost = postsArray[currentIndex];
@@ -51,6 +51,7 @@ const feed = function(state = initialState, action) {
     }
 
     case "INITIALIZE_POSTS": {
+      console.log("initialize", action)
       return {
         ...state,
         posts: createPostsObject(action.payload)

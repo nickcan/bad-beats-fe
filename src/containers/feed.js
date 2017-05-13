@@ -15,12 +15,18 @@ const PostsContainer = styled.div`
 class feed extends React.Component {
   constructor(props) {
     super(props);
-    props.getPosts({sport: this.props.sport});
+    props.getPosts({
+      sport: this.props.sport,
+      userId: this.props.userId
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.sport !== nextProps.sport) {
-      this.props.getPosts({sport: nextProps.sport});
+    if (this.props.sport !== nextProps.sport || this.props.userId !== nextProps.userId) {
+      this.props.getPosts({
+        sport: nextProps.sport,
+        userId: nextProps.userId
+      });
     }
   }
 

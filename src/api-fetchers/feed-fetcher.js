@@ -19,3 +19,17 @@ export const getPosts = function(queryParams = "") {
     }
   })
 };
+
+export const getUserPosts = function(userId, queryParams = "") {
+  return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/posts?${queryParams}`, {
+    method: "GET",
+    headers
+  }).then(async function(response) {
+    if (response.ok) {
+      const data = await response.json();
+      return camelizeKeys(data);
+    } else {
+      throw new Error(response.statusText);
+    }
+  })
+};

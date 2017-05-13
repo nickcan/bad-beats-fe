@@ -5,6 +5,8 @@ import * as UserFetcher from "../api-fetchers/user-fetcher";
 const initializeUserProfile = createAction("INITIALIZE_USER_PROFILE");
 const updateUserProfile = createAction("UPDATE_USER_PROFILE");
 
+export const resetUserProfile = createAction("RESET_USER_PROFILE");
+
 export const initialize = function(userId) {
   return async function(dispatch) {
     const response = await UserFetcher.getUser(userId);
