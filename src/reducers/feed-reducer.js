@@ -51,7 +51,6 @@ const feed = function(state = initialState, action) {
     }
 
     case "INITIALIZE_POSTS": {
-      console.log("initialize", action)
       return {
         ...state,
         posts: createPostsObject(action.payload)

@@ -3,12 +3,11 @@ import { bindActionCreators } from "redux";
 import React from "react";
 import styled from "styled-components";
 
-import { getFollowers } from "../api-fetchers/user-fetcher";
-
 import * as UserProfileActions from "../actions/user-profile-actions";
 
-import ListOfUsers from "../components/list-of-users";
+import FollowButton from "../components/follow-button";
 import Feed from "./feed";
+import UserList from "./user-list";
 
 const Canopy = styled.div`
   display: flex;
@@ -65,26 +64,6 @@ const ShortBio = styled.div`
   text-align: center;
 `;
 
-const FollowButton = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
-  height: 50px;
-  width: 215px;
-
-  background-color: ${(props) => props.isFollowing ? "gray" : "white"};
-  border: 2px solid gray;
-  border-radius: 40px;
-
-  transition: background-color, border, color, .1s;
-
-  color: ${(props) => props.isFollowing ? "white" : "gray"};
-  font-size: 20px;
-
-  cursor: pointer;
-`;
-
 const TabsContainer = styled.div`
   width: 100%;
   margin-top: 40px;
@@ -134,7 +113,7 @@ class UserProfile extends React.Component {
     props.initialize(props.match.params.id);
 
     this.state = {
-      activeTab: "posts"
+      activeTab: "followers"
     }
   }
 
@@ -156,7 +135,7 @@ class UserProfile extends React.Component {
     }
     if (this.state.activeTab === "followers") {
       if (this.props.id) {
-        return <ListOfUsers />
+        return <UserList userId={this.props.id} />
       }
     }
     if (this.state.activeTab === "following") {
@@ -175,10 +154,8 @@ class UserProfile extends React.Component {
           <ShortBio>{this.props.shortBio}</ShortBio>
           <FollowButton
             isFollowing={this.props.isActiveUserFollowing}
-            onClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
-          >
-            {this.props.isActiveUserFollowing ? "Following" : "Follow"}
-          </FollowButton>
+            handleClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
+          />
           <TabsContainer>
             <TabListContainer>
               <StyledTab
