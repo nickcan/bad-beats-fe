@@ -12,7 +12,7 @@ const BodyContainer = styled.div`
 
 const TextContainer = styled.div`
   box-sizing: border-box;
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.davysGray};
   font-size: 18px;
   font-family: Helvetica, sans-serif;
   line-height: 22px;
@@ -29,7 +29,7 @@ const ImageContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  background-color: ${(props) => props.theme.mediumGray};
+  background-color: ${(props) => props.theme.gainsboro};
   min-height: 300px;
 
   img {

@@ -19,7 +19,7 @@ const Canopy = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  background-color: #2A3A29;
+  background-color: ${(props) => props.theme.charlestonGreen};
 `;
 
 const ProfileImage = styled.div`
@@ -30,7 +30,7 @@ const ProfileImage = styled.div`
 
   height: 165px;
   width: 165px;
-  background-color: gray;
+  background-color: ${(props) => props.theme.platinum};
 `;
 
 const InfoContainer = styled.div`
@@ -41,7 +41,10 @@ const InfoContainer = styled.div`
   margin: 60px auto;
   width: 650px;
 
+  box-sizing: border-box;
+
   @media (max-width: 650px) {
+    padding: 0 10px;
     width: 100%;
   }
 `;
@@ -50,6 +53,7 @@ const Name = styled.div`
   height: 40px;
   margin-bottom: 10px;
 
+  color: ${(props) => props.theme.charlestonGreen};
   font-family: Helvetica, sans-serif;
   font-size: 32px;
   text-align: center;
@@ -59,7 +63,7 @@ const ShortBio = styled.div`
   height: 40px;
   margin-bottom: 5px;
 
-  color: gray;
+  color: ${(props) => props.theme.davysGray};
   font-size: 20px;
   text-align: center;
 `;
@@ -88,13 +92,16 @@ const StyledTab = styled.div`
 
   height: 70px;
 
-  border: 1px solid #D8D8D8;
+  border: 1px solid ${(props) => props.theme.platinum};
   border-left: 0;
+  border-bottom: 1px solid ${(props) => props.isActive ? props.theme.safetyOrange : props.theme.platinum};
+  box-shadow: ${(props) => props.isActive ? `inset 0 -1px 0 ${props.theme.safetyOrange}` : "initial"};
 
   font-size: 20px;
   text-align: center;
 
   cursor: pointer;
+  transition: border-bottom, .5s;
 
   &:last-child {
     border-right: 0;
@@ -104,7 +111,6 @@ const StyledTab = styled.div`
 const Following = styled.div`
   width: 100%;
   height: 300px;
-  background-color: red;
 `;
 
 class UserProfile extends React.Component {
@@ -113,13 +119,15 @@ class UserProfile extends React.Component {
     props.initialize(props.match.params.id);
 
     this.state = {
-      activeTab: "followers"
+      activeTab: "posts"
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.id !== nextProps.match.params.id) {
       this.props.initialize(nextProps.match.params.id);
+      this.setState({activeTab: "posts"})
+      window.scrollTo(0, 0);
     }
   }
 

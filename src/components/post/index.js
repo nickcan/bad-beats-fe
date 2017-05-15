@@ -6,10 +6,10 @@ import PostBody from "./post-body";
 import Comments from "../comments";
 
 const PostContainer = styled.div`
-  background-color: ${(props) => props.theme.white};
-  border: 1px solid ${(props) => props.theme.mediumGray};
+  background-color: ${(props) => props.theme.babyPowder};
+  border: 1px solid ${(props) => props.theme.gainsboro};
   border-radius: 3px;
-  box-shadow: 0 4px 8px -2px ${(props) => props.theme.mediumGray};
+  box-shadow: 0 4px 8px -2px ${(props) => props.theme.gainsboro};
   margin-bottom: 10px;
 `;
 

@@ -7,7 +7,7 @@ import logo from "../static-assets/boxing_logo.png";
 import search from "../static-assets/search_icon.png";
 
 const Header = styled.div`
-  background-color: ${(props) => props.theme.mediumGray};
+  background-color: ${(props) => props.theme.charlestonGreen};
   display: flex;
   justify-content: center;
   left: 0;
@@ -25,7 +25,6 @@ const Header = styled.div`
 
 const InnerContainer = styled.div`
   align-items: center;
-  background-color: ${(props) => props.theme.mediumGray};
   display: flex;
   justify-content: space-between;
   width: 1000px;
@@ -50,7 +49,7 @@ const LogoContainerLink = styled(Link)`
 `;
 
 const LogoName = styled.div`
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.babyPowder};
   font-family: helvetica;
   font-size: 20px;
   font-weight: 300;
@@ -89,17 +88,12 @@ const BoxingGloveIcon = styled.div`
 `;
 
 const UserSettingsIcon = styled.div`
-  background-color: ${(props) => props.theme.lightGray}
+  background-color: ${(props) => props.theme.babyPowder}
   border: 2px solid white;
   cursor: pointer;
   border-radius: 20%;
   height: 30px;
   width: 30px;
-
-  &:hover {
-    background-color: ${(props) => props.theme.charcoal}
-    transition: background-color, .5s;
-  }
 `;
 
 class AppHeader extends React.Component {
