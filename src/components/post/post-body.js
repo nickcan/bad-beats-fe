@@ -1,7 +1,8 @@
-import { RingLoader } from "halogen";
+import LazyLoad from "react-lazyload";
 import React from "react";
 import styled from "styled-components";
 
+import Loader from "../loader";
 import Votes from "../votes";
 
 const BodyContainer = styled.div`
@@ -29,7 +30,7 @@ const ImageContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  background-color: ${(props) => props.theme.gainsboro};
+  background-color: ${(props) => props.theme.charlestonGreen};
   min-height: 300px;
 
   img {
@@ -42,46 +43,18 @@ const ImageContainer = styled.div`
   }
 `;
 
-class Loader extends React.Component {
-  render() {
-    if (!this.props.isLoading) return null;
-
-    return (
-      <RingLoader
-        color="#fff"
-        size="40px"
-      />
-    );
-  }
-}
-
 class PostImage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadingStatus: "loading"
-    }
-  }
-
-  handleImageError() {
-    this.setState({ loadingStatus: "failed" });
-  }
-
-  handleImageLoaded() {
-    this.setState({ loadingStatus: "loaded" });
-  }
-
   render() {
     if (!this.props.image || !this.props.image.url) return null;
 
     return (
       <ImageContainer>
-        <Loader isLoading={this.props.loadingStatus === "loading"} />
-        <img
-          src={this.props.image.url} alt=""
-          onError={() => this.handleImageError()}
-          onLoad={() => this.handleImageLoaded()}
-        />
+        <LazyLoad
+          offset={400}
+          placeholder={<Loader isLoading={true} />}
+        >
+          <img src={this.props.image.url} alt="" />
+        </LazyLoad>
       </ImageContainer>
     );
   }
