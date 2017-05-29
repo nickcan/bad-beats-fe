@@ -15,10 +15,40 @@ const PostsContainer = styled.div`
 class feed extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoading: false,
+      page: 0,
+      bodyElement: document.get
+    };
+
     props.getPosts({
-      sport: this.props.sport,
-      userId: this.props.userId
+      sport: props.sport,
+      userId: props.userId
     });
+
+    window.onscroll = async (ev) => {
+      if ((window.innerHeight + window.pageYOffset) >= document.body.scrollHeight - 500) {
+        if (!this.state.isLoading) {
+          const nextPage = this.state.page + 1;
+
+          this.setState({
+            isLoading: true
+          });
+
+          await props.getPosts({
+            page: nextPage,
+            sport: props.sport,
+            userId: props.userId
+          });
+
+          this.setState({
+            isLoading: false,
+            page: nextPage
+          });
+        }
+      }
+    };
   }
 
   componentWillReceiveProps(nextProps) {

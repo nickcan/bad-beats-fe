@@ -53,7 +53,7 @@ const feed = function(state = initialState, action) {
     case "INITIALIZE_POSTS": {
       return {
         ...state,
-        posts: createPostsObject(action.payload)
+        posts: {...state.posts, ...createPostsObject(action.payload)}
       };
     }
 
