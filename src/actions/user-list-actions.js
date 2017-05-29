@@ -5,9 +5,9 @@ import * as UserFetcher from "../api-fetchers/user-fetcher";
 const initializeUserList = createAction("INITIALIZE_USER_LIST");
 const updateUserInList = createAction("UPDATE_USER_IN_LIST");
 
-export const initialize = function(userId) {
+export const initialize = function(userId, type = "followers") {
   return async function(dispatch) {
-    const response = await UserFetcher.getFollowers(userId);
+    const response = await UserFetcher.getUsers(userId, type);
     dispatch(initializeUserList(response));
   }
 }

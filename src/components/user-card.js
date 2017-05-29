@@ -9,11 +9,10 @@ const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  float: left;
+  width: 48%;
 
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   min-height: 200px;
-  width: 49.65%;
 
   background-color: ${(props) => props.theme.white};
   border: 1px solid ${(props) => props.theme.platinum};
@@ -46,14 +45,28 @@ const ProfileImage = styled(Link)`
   border-radius: 4px;
 `;
 
+const AbsoluteFollowButton = styled.div`
+  position: absolute;
+  bottom: 5px;
+  right: 35px;
+`;
+
 const Name = styled(Link)`
   color: ${(props) => props.theme.blue};
-  font-size: 22px;
+  font-size: 20px;
   text-align: center;
   text-decoration: none;
 `;
 
-const StatSection = styled.div`
+const ShortBio = styled.div`
+  color: ${(props) => props.theme.davysGray};
+  font-size: 14px;
+  text-align: center;
+  width: 90%;
+  margin: 5px auto;
+`;
+
+const StatContainer = styled.div`
   display: flex;
 
   margin-top: 20px;
@@ -69,14 +82,33 @@ const Stat = styled.div`
 
   height: 50px;
 
-  font-size: 14px;
+  color: ${(props) => props.theme.charlestonGreen};
+  font-size: 20px;
+
+  div {
+    color: ${(props) => props.theme.davysGray};
+    font-size: 12px;
+  }
 `;
 
-const AbsoluteFollowButton = styled.div`
-  position: absolute;
-  bottom: 5px;
-  right: 35px;
-`;
+const StatSection = ({
+  ...props
+}) => (
+  <StatContainer>
+    <Stat>
+      {props.postCount}
+      <div>Posts</div>
+    </Stat>
+    <Stat>
+      {props.followerCount}
+      <div>Followers</div>
+    </Stat>
+    <Stat>
+      {props.followingCount}
+      <div>Following</div>
+    </Stat>
+  </StatContainer>
+);
 
 class UserCard extends React.Component {
   render() {
@@ -94,20 +126,8 @@ class UserCard extends React.Component {
           <ProfileImage to={`/users/${this.props.id}`} />
         </InnerBackground>
         <Name to={`/users/${this.props.id}`}>{this.props.name}</Name>
-        <StatSection>
-          <Stat>
-            {this.props.postCount}
-            <div>Posts</div>
-          </Stat>
-          <Stat>
-            {this.props.followerCount}
-            <div>Followers</div>
-          </Stat>
-          <Stat>
-            {this.props.followingCount}
-            <div>Following</div>
-          </Stat>
-        </StatSection>
+        <ShortBio>{this.props.shortBio}</ShortBio>
+        <StatSection {...this.props} />
       </CardContainer>
     );
   }

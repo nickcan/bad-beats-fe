@@ -50,7 +50,7 @@ const LogoContainerLink = styled(Link)`
 
 const LogoName = styled.div`
   color: ${(props) => props.theme.babyPowder};
-  font-family: helvetica;
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 20px;
   font-weight: 300;
 `;

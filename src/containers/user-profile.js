@@ -41,6 +41,8 @@ const InfoContainer = styled.div`
   margin: 60px auto;
   width: 650px;
 
+  font-family: ${(props) => props.theme.mainFont};
+
   box-sizing: border-box;
 
   @media (max-width: 650px) {
@@ -54,7 +56,7 @@ const Name = styled.div`
   margin-bottom: 10px;
 
   color: ${(props) => props.theme.charlestonGreen};
-  font-family: Helvetica, sans-serif;
+  font-family: ${(props) => props.theme.mainFont};
   font-size: 32px;
   text-align: center;
 `;
@@ -97,20 +99,22 @@ const StyledTab = styled.div`
   border-bottom: 1px solid ${(props) => props.isActive ? props.theme.safetyOrange : props.theme.platinum};
   box-shadow: ${(props) => props.isActive ? `inset 0 -1px 0 ${props.theme.safetyOrange}` : "initial"};
 
-  font-size: 20px;
+  color: ${(props) => props.theme.davysGray};
+
+  font-size: 16px;
   text-align: center;
 
   cursor: pointer;
   transition: border-bottom, .5s;
 
+  div {
+    color: ${(props) => props.theme.charlestonGreen};
+    font-size: 24px;
+  }
+
   &:last-child {
     border-right: 0;
   }
-`;
-
-const Following = styled.div`
-  width: 100%;
-  height: 300px;
 `;
 
 class UserProfile extends React.Component {
@@ -141,13 +145,10 @@ class UserProfile extends React.Component {
         return <Feed userId={this.props.id} />
       }
     }
-    if (this.state.activeTab === "followers") {
+    if (this.state.activeTab === "followers" || this.state.activeTab === "following") {
       if (this.props.id) {
-        return <UserList userId={this.props.id} />
+        return <UserList userId={this.props.id} listType={this.state.activeTab} />
       }
-    }
-    if (this.state.activeTab === "following") {
-      return <Following />
     }
   }
 

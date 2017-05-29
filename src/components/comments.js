@@ -9,7 +9,7 @@ const CommentsContainer = styled.div`
 `;
 
 const Comment = styled.div`
-  font-family: Helvetica, sans-serif;
+  font-family: ${(props) => props.theme.mainFont};
   padding-bottom: 8px;
 `;
 

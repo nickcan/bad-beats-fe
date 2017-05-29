@@ -8,6 +8,10 @@ import * as UserListActions from "../actions/user-list-actions";
 import UserCard from "../components/user-card";
 
 const ListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   min-height: 400px;
   width: 100%;
 
@@ -19,13 +23,13 @@ class ListOfUsers extends React.Component {
     super(props);
 
     if (props.userId) {
-      this.props.initialize(this.props.userId);
+      this.props.initialize(this.props.userId, this.props.listType);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.userId !== nextProps.userId) {
-      this.props.initialize(this.props.userId);
+    if (this.props.userId !== nextProps.userId || this.props.listType !== nextProps.listType) {
+      this.props.initialize(this.props.userId, nextProps.listType);
     }
   }
 

@@ -9,17 +9,20 @@ const SharedStyles = styled.div`
   background-color: ${(props) => props.isFollowing ? props.theme.safetyOrange : props.theme.white};
 
   color: ${(props) => props.isFollowing ? props.theme.white : props.theme.safetyOrange};
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 300;
 
   cursor: pointer;
 `;
 
 const BigButton = styled(SharedStyles)`
-  height: 50px;
-  width: 215px;
+  height: 40px;
+  width: 190px;
 
-  border: 2px solid ${(props) => props.theme.safetyOrange};
-  border-radius: 40px;
+  border: 1.2px solid ${(props) => props.theme.safetyOrange};
+  border-radius: ${(props) => props.isFollowing ? "40px" : "4px"};
+
+  transition: border-radius, .5s;
 `;
 
 const SmallButton = styled(SharedStyles)`
@@ -41,8 +44,8 @@ const Checkmark = styled.div`
     content: '';
     display: block;
 
-    height: 12px;
-    width: 6px;
+    height: 10px;
+    width: 4px;
 
     border: solid ${(props) => props.theme.white};
     border-width: 0 2px 2px 0;

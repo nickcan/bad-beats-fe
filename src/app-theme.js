@@ -9,5 +9,6 @@ export default {
   platinum: "#E5E6E6",
   safetyOrange: "#FC660F",
   white: "#FFF",
-  whiteSmoke: "#F5F5F5"
+  whiteSmoke: "#F5F5F5",
+  mainFont: "'Helvetica Neue', Helvetica, Arial, sans-serif"
 }
