@@ -116,6 +116,42 @@ const StyledTab = styled.div`
   }
 `;
 
+const UserStats = ({
+  ...props
+}) => (
+  <TabsContainer>
+    <TabListContainer>
+      <StyledTab
+        isActive={props.activeTab === "posts"}
+        onClick={() => props.activateTab("posts")}
+      >
+        <div>
+          {props.postCount}
+        </div>
+        Posts
+      </StyledTab>
+      <StyledTab
+        isActive={props.activeTab === "followers"}
+        onClick={() => props.activateTab("followers")}
+      >
+        <div>
+          {props.followerCount}
+        </div>
+        Followers
+      </StyledTab>
+      <StyledTab
+        isActive={props.activeTab === "following"}
+        onClick={() => props.activateTab("following")}
+      >
+        <div>
+          {props.followingCount}
+        </div>
+        Following
+      </StyledTab>
+    </TabListContainer>
+  </TabsContainer>
+);
+
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -127,7 +163,7 @@ class UserProfile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.id !== nextProps.match.params.id) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
       this.props.initialize(nextProps.match.params.id);
       this.setState({activeTab: "posts"})
       window.scrollTo(0, 0);
@@ -165,37 +201,11 @@ class UserProfile extends React.Component {
             isNotFollowable={this.props.activeUser.id === this.props.id}
             handleClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
           />
-          <TabsContainer>
-            <TabListContainer>
-              <StyledTab
-                isActive={this.state.activeTab === "posts"}
-                onClick={() => this.setState({activeTab: "posts"})}
-              >
-                <div>
-                  {this.props.postCount}
-                </div>
-                Posts
-              </StyledTab>
-              <StyledTab
-                isActive={this.state.activeTab === "followers"}
-                onClick={() => this.setState({activeTab: "followers"})}
-              >
-                <div>
-                  {this.props.followerCount}
-                </div>
-                Followers
-              </StyledTab>
-              <StyledTab
-                isActive={this.state.activeTab === "following"}
-                onClick={() => this.setState({activeTab: "following"})}
-              >
-                <div>
-                  {this.props.followingCount}
-                </div>
-                Following
-              </StyledTab>
-            </TabListContainer>
-          </TabsContainer>
+          <UserStats
+            {...this.props}
+            {...this.state}
+            activateTab={(tabName) => this.setState({activeTab: tabName})}
+          />
           {this.determineActiveSection()}
         </InfoContainer>
       </div>
