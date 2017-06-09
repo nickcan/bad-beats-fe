@@ -6,6 +6,7 @@ import styled from "styled-components";
 import * as CommentsActions from "../actions/comments-actions";
 import * as FeedActions from "../actions/feed-actions";
 
+import InfiniteScroller from "../components/infinite-scroller";
 import Post from "../components/post";
 
 const PostsContainer = styled.div`
@@ -16,39 +17,10 @@ class feed extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isLoading: false,
-      page: 0,
-      bodyElement: document.get
-    };
-
     props.getPosts({
       sport: props.sport,
       userId: props.userId
     });
-
-    window.onscroll = async (ev) => {
-      if ((window.innerHeight + window.pageYOffset) >= document.body.scrollHeight - 500) {
-        if (!this.state.isLoading) {
-          const nextPage = this.state.page + 1;
-
-          this.setState({
-            isLoading: true
-          });
-
-          await props.getPosts({
-            page: nextPage,
-            sport: props.sport,
-            userId: props.userId
-          });
-
-          this.setState({
-            isLoading: false,
-            page: nextPage
-          });
-        }
-      }
-    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,26 +32,41 @@ class feed extends React.Component {
     }
   }
 
+  async fetchPostsByPage(page) {
+    if (!this.props.feed.hasNoMorePosts) {
+      await this.props.getPosts({
+        page,
+        sport: this.props.sport,
+        userId: this.props.userId
+      });
+    }
+  }
+
   render() {
     const postsAsArray = Object.keys(this.props.feed.posts);
     if (postsAsArray.length === 0) return null;
 
     return (
-      <PostsContainer>
-        {postsAsArray.map((postId) => {
-          return (
-            <Post
-              activeUser={this.props.activeUser}
-              key={postId}
-              {...this.props.feed.posts[postId]}
-              createComment={this.props.createComment}
-              deleteComment={this.props.deleteComment}
-              voteComment={this.props.voteComment}
-              votePost={this.props.votePost}
-            />
-          );
-        })}
-      </PostsContainer>
+      <InfiniteScroller
+        isLastPage={this.props.feed.hasNoMorePosts}
+        fetchFunction={(page) => this.fetchPostsByPage(page)}
+      >
+        <PostsContainer>
+          {postsAsArray.map((postId) => {
+            return (
+              <Post
+                activeUser={this.props.activeUser}
+                key={postId}
+                {...this.props.feed.posts[postId]}
+                createComment={this.props.createComment}
+                deleteComment={this.props.deleteComment}
+                voteComment={this.props.voteComment}
+                votePost={this.props.votePost}
+              />
+            );
+          })}
+        </PostsContainer>
+      </InfiniteScroller>
     );
   }
 }

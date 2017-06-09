@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import * as UserListActions from "../actions/user-list-actions";
 
+import InfiniteScroller from "../components/infinite-scroller";
 import UserCard from "../components/user-card";
 
 const ListContainer = styled.div`
@@ -33,24 +34,34 @@ class ListOfUsers extends React.Component {
     }
   }
 
+  async paginateFetchUsers(page) {
+    await this.props.initialize(this.props.userId, this.props.listType, page);
+  }
+
   render() {
     const usersAsArray = Object.keys(this.props.users);
     if (usersAsArray.length === 0) return null;
 
     return (
-      <ListContainer>
-        {usersAsArray.map((userId) => {
-          const user = this.props.users[userId];
+      <InfiniteScroller
+        isLastPage={this.props.hasNoMoreUsers}
+        fetchFunction={(page) => this.paginateFetchUsers(page)}
+      >
+        <ListContainer>
+          {usersAsArray.map((userId) => {
+            const user = this.props.users[userId];
 
-          return (
-            <UserCard
-              key={user.id}
-              followUserInList={this.props.followUserInList}
-              {...user}
-            />
-          );
-        })}
-      </ListContainer>
+            return (
+              <UserCard
+                activeUserId={this.props.activeUserId}
+                key={user.id}
+                followUserInList={this.props.followUserInList}
+                {...user}
+              />
+            );
+          })}
+        </ListContainer>
+      </InfiniteScroller>
     );
   }
 }
@@ -63,7 +74,8 @@ const mapDispatchToProps = function(dispatch) {
 
 const mapStateToProps = function(state) {
   return {
-    users: state.userList.users
+    ...state.userList,
+    activeUserId: state.activeUser.id
   }
 }
 

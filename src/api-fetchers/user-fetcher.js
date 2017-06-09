@@ -65,8 +65,8 @@ export const postFollowing = function(request, requestType) {
   })
 }
 
-export const getUsers = function(userId, type) {
-  return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/${type}`, {
+export const getUsers = function(userId, type, page) {
+  return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/${type}?page=${page}&size=24`, {
     method: "GET",
     headers
   }).then(async function(response) {

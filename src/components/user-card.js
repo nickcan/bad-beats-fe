@@ -58,14 +58,6 @@ const Name = styled(Link)`
   text-decoration: none;
 `;
 
-const ShortBio = styled.div`
-  color: ${(props) => props.theme.davysGray};
-  font-size: 14px;
-  text-align: center;
-  width: 90%;
-  margin: 5px auto;
-`;
-
 const StatContainer = styled.div`
   display: flex;
 
@@ -117,7 +109,7 @@ class UserCard extends React.Component {
         <InnerBackground>
           <AbsoluteFollowButton>
             <FollowButton
-              isFollowable={this.props.activeUserId === this.props.id}
+              isNotFollowable={this.props.activeUserId === this.props.id}
               isFollowing={this.props.isActiveUserFollowing}
               small
               handleClick={() => this.props.followUserInList(this.props.id, this.props.isActiveUserFollowing)}
@@ -126,7 +118,6 @@ class UserCard extends React.Component {
           <ProfileImage to={`/users/${this.props.id}`} />
         </InnerBackground>
         <Name to={`/users/${this.props.id}`}>{this.props.name}</Name>
-        <ShortBio>{this.props.shortBio}</ShortBio>
         <StatSection {...this.props} />
       </CardContainer>
     );

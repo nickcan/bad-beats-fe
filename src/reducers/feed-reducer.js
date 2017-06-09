@@ -1,6 +1,7 @@
 import { filter } from "lodash";
 
 const initialState = {
+  hasNoMorePosts: false,
   posts: {}
 };
 
@@ -50,10 +51,25 @@ const feed = function(state = initialState, action) {
       }
     }
 
+    case "RESET_FEED": {
+      return initialState;
+    }
+
     case "INITIALIZE_POSTS": {
       return {
+        ...initialState,
+        posts: createPostsObject(action.payload)
+      };
+    }
+
+    case "APPEND_POSTS": {
+      return {
         ...state,
-        posts: {...state.posts, ...createPostsObject(action.payload)}
+        hasNoMorePosts: action.payload.length === 0,
+        posts: {
+          ...state.posts,
+          ...createPostsObject(action.payload)
+        }
       };
     }
 

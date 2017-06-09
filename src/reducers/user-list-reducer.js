@@ -1,4 +1,5 @@
 const initialState = {
+  hasNoMoreUsers: false,
   users: {}
 };
 
@@ -18,9 +19,20 @@ const createUsersObject = function(usersArray = [], usersObjects = {}, currentIn
 
 const userList = function(state = initialState, action) {
   switch(action.type) {
-    case "INITIALIZE_USER_LIST": {
+    case "APPEND_USER_LIST": {
       return {
         ...state,
+        hasNoMoreUsers: action.payload.length === 0,
+        users: {
+          ...state.users,
+          ...createUsersObject(action.payload)
+        }
+      }
+    }
+
+    case "INITIALIZE_USER_LIST": {
+      return {
+        ...initialState,
         users: createUsersObject(action.payload)
       }
     }

@@ -62,8 +62,7 @@ const Name = styled.div`
 `;
 
 const ShortBio = styled.div`
-  height: 40px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 
   color: ${(props) => props.theme.davysGray};
   font-size: 20px;
@@ -163,6 +162,7 @@ class UserProfile extends React.Component {
           <ShortBio>{this.props.shortBio}</ShortBio>
           <FollowButton
             isFollowing={this.props.isActiveUserFollowing}
+            isNotFollowable={this.props.activeUser.id === this.props.id}
             handleClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
           />
           <TabsContainer>

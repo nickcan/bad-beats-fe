@@ -36,24 +36,33 @@ const ImageContainer = styled.div`
   img {
     width: 100%;
     height: 100%;
+    opacity: ${(props) => props.isLoading ? "0" : "1"};
   }
 
   @media (max-width: 600px) {
-    min-height: 150px;
+    min-height: 160px;
   }
 `;
 
 class PostImage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+  }
+
   render() {
     if (!this.props.image || !this.props.image.url) return null;
 
     return (
-      <ImageContainer>
-        <LazyLoad
-          offset={400}
-          placeholder={<Loader isLoading={true} />}
-        >
-          <img src={this.props.image.url} alt="" />
+      <ImageContainer isLoading={this.state.isLoading}>
+        <Loader isLoading={this.state.isLoading} />
+        <LazyLoad offset={400}>
+          <img
+            src={this.props.image.url} alt=""
+            onLoad={() => this.setState({isLoading: false})}
+          />
         </LazyLoad>
       </ImageContainer>
     );
