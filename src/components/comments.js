@@ -70,6 +70,17 @@ const SimpleButton = styled.div`
   }
 `;
 
+const LoadMoreButton = styled.div`
+  border-top: 1px solid ${(props) => props.theme.gainsboro};
+  margin-bottom: 2px;
+  padding: 5px 0;
+  color: ${(props) => props.theme.blue};
+  font-size: 14px;
+  font-weight: 100;
+
+  cursor: pointer;
+`;
+
 class DeleteButton extends React.Component {
   render() {
     if (this.props.activeUser && this.props.commentUserId !== this.props.activeUser.id) return null;
@@ -77,6 +88,19 @@ class DeleteButton extends React.Component {
     return <SimpleButton onClick={this.props.handleClick}>- Delete</SimpleButton>;
   }
 };
+
+const LoadComments = function({
+  ...props
+}) {
+  if (!props.canLoadMoreComments) return null;
+
+  return <LoadMoreButton
+    onClick={() => props.getComments({
+      postId: props.id,
+      offset: props.comments.length === 5 ? 0 : props.comments.length + 1
+    })}
+  >Load more comments</LoadMoreButton>
+}
 
 class Comments extends React.Component {
   constructor(props) {
@@ -99,6 +123,10 @@ class Comments extends React.Component {
     }
   }
 
+  canLoadMoreComments() {
+    return this.props.commentCount > this.props.comments.length;
+  }
+
   render() {
     const formattedCommentDate = moment(this.props.createdAt).format("MMMM Do, h:mm a");
 
@@ -108,14 +136,14 @@ class Comments extends React.Component {
           return (
             <Comment key={comment.id}>
               <CommentMessage>
-                <UsernameLink to={`/users/${comment.user.id}`}>{comment.user.name}</UsernameLink>
+                <UsernameLink to={`/users/${comment.userId}`}>{comment.user.name}</UsernameLink>
                 {comment.message}
               </CommentMessage>
               <CommentBottomBar>
                 <CommentDate>{formattedCommentDate}</CommentDate>
                 <DeleteButton
                   activeUser={this.props.activeUser}
-                  commentUserId={comment.user.id}
+                  commentUserId={comment.userId}
                   handleClick={() => this.props.deleteComment(comment.id)}
                 >- Delete</DeleteButton>
                 <SimpleButton
@@ -126,6 +154,10 @@ class Comments extends React.Component {
             </Comment>
           );
         })}
+        <LoadComments
+          {...this.props}
+          canLoadMoreComments={this.canLoadMoreComments()}
+        >Load more comments</LoadComments>
         <CommentInput
           placeholder="Write comment..."
           type="text"

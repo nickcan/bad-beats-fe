@@ -25,17 +25,44 @@ const TextContainer = styled.div`
   }
 `;
 
+const ActionBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top: 1px solid ${(props) => props.theme.whiteSmoke};
+  padding: 15px;
+`;
+
+const CommentCountContainer = styled.div`
+  padding-top: 2px;
+
+  color: ${(props) => props.theme.ashGray};
+  font-size: 12px;
+`;
+
+const CommentCount = function({
+  ...props
+}) {
+  if (props.commentCount <= 0) return null;
+
+  return <CommentCountContainer>Comments {props.commentCount}</CommentCountContainer>
+}
+
 class PostBody extends React.Component {
   render() {
     return (
       <BodyContainer>
         <TextContainer>{this.props.text}</TextContainer>
         <PostImage image={this.props.images[0]} />
-        <Votes
-          currentUserHasVoted={this.props.currentUserHasVoted}
-          handleClick={() => this.props.votePost(this.props.id, this.props.currentUserHasVoted)}
-          voteCount={this.props.voteCount}
-        />
+        <ActionBar>
+          <Votes
+            currentUserHasVoted={this.props.currentUserHasVoted}
+            handleClick={() => this.props.votePost(this.props.id, this.props.currentUserHasVoted)}
+            voteCount={this.props.voteCount}
+          />
+          <CommentCount commentCount={this.props.commentCount} />
+        </ActionBar>
       </BodyContainer>
     );
   }

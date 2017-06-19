@@ -6,11 +6,21 @@ import PostBody from "./post-body";
 import Comments from "../comments";
 
 const PostContainer = styled.div`
+  margin-bottom: 10px;
+
   background-color: ${(props) => props.theme.babyPowder};
   border: 1px solid ${(props) => props.theme.gainsboro};
   border-radius: 3px;
   box-shadow: 0 4px 8px -2px ${(props) => props.theme.gainsboro};
-  margin-bottom: 10px;
+
+  @media (max-width: 650px) {
+    margin-bottom: 12px;
+
+    border: 0;
+    border-bottom: 1px solid ${(props) => props.theme.gainsboro};
+    border-top: 1px solid ${(props) => props.theme.gainsboro};
+    border-radius: 0;
+  }
 `;
 
 class Post extends React.Component {

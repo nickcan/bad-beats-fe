@@ -30,7 +30,25 @@ const feed = function(state = initialState, action) {
           ...state.posts,
           [action.payload.postId]: {
             ...post,
+            commentCount: post.commentCount + 1,
             comments: [...post.comments, action.payload]
+          }
+        }
+      }
+    }
+
+    case "APPEND_COMMENTS": {
+      const post = state.posts[action.payload.postId];
+      const comments = post.comments.length === 5 ? action.payload.comments : [...post.comments, ...action.payload.comments];
+
+
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload.postId]: {
+            ...post,
+            comments
           }
         }
       }
@@ -45,6 +63,7 @@ const feed = function(state = initialState, action) {
           ...state.posts,
           [action.payload.postId]: {
             ...post,
+            commentCount: post.commentCount - 1,
             comments: filter(post.comments, (comment) => comment.id !== action.payload.id)
           }
         }
@@ -117,4 +136,3 @@ const feed = function(state = initialState, action) {
 }
 
 export default feed;
-

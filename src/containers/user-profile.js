@@ -46,7 +46,6 @@ const InfoContainer = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 650px) {
-    padding: 0 10px;
     width: 100%;
   }
 `;
@@ -155,7 +154,7 @@ const UserStats = ({
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    props.initialize(props.match.params.id);
+    this.initializeAndScrollToTopOfPage(this.props.match.params.id);
 
     this.state = {
       activeTab: "posts"
@@ -164,14 +163,18 @@ class UserProfile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id !== nextProps.match.params.id) {
-      this.props.initialize(nextProps.match.params.id);
-      this.setState({activeTab: "posts"})
-      window.scrollTo(0, 0);
+      this.initializeAndScrollToTopOfPage(nextProps.match.params.id);
     }
   }
 
   componentWillUnmount() {
     this.props.resetUserProfile();
+  }
+
+  initializeAndScrollToTopOfPage(userId) {
+    this.props.initialize(userId);
+    this.setState({activeTab: "posts"});
+    window.scrollTo(0, 0);
   }
 
   determineActiveSection() {

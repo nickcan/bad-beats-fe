@@ -13,7 +13,7 @@ const PostsContainer = styled.div`
   width: 100%;
 `;
 
-class feed extends React.Component {
+class Feed extends React.Component {
   constructor(props) {
     super(props);
 
@@ -59,6 +59,7 @@ class feed extends React.Component {
                 key={postId}
                 {...this.props.feed.posts[postId]}
                 createComment={this.props.createComment}
+                getComments={this.props.getComments}
                 deleteComment={this.props.deleteComment}
                 voteComment={this.props.voteComment}
                 votePost={this.props.votePost}
@@ -88,4 +89,4 @@ const mapStateToProps = function(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(feed);
+)(Feed);

@@ -4,8 +4,6 @@ import styled from "styled-components";
 const VotesContainer = styled.div`
   display: flex;
   align-items: center;
-  border-top: 1px solid ${(props) => props.theme.whiteSmoke};
-  padding: 15px;
 `;
 
 const VoteIcon = styled.div`
