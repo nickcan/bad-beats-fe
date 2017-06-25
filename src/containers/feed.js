@@ -7,6 +7,7 @@ import * as CommentsActions from "../actions/comments-actions";
 import * as FeedActions from "../actions/feed-actions";
 
 import InfiniteScroller from "../components/infinite-scroller";
+import PlaceholderPost from "../components/placeholder-post";
 import Post from "../components/post";
 
 const PostsContainer = styled.div`
@@ -44,7 +45,7 @@ class Feed extends React.Component {
 
   render() {
     const postsAsArray = Object.keys(this.props.feed.posts);
-    if (postsAsArray.length === 0) return null;
+    if (postsAsArray.length === 0) return <PlaceholderPost />
 
     return (
       <InfiniteScroller
