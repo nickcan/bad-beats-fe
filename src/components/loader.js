@@ -6,8 +6,6 @@ const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-
-  position: absolute;
 `;
 
 const Text = styled.div`

@@ -23,8 +23,8 @@ const Canopy = styled.div`
 `;
 
 const ProfileImage = styled.div`
-  position: absolute;
-  bottom: -35px;
+  position: relative;
+  top: 110px;
 
   border-radius: 100%;
 

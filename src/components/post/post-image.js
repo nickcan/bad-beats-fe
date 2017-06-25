@@ -14,7 +14,7 @@ const ImageContainer = styled.div`
   img {
     width: 100%;
     height: 100%;
-    opacity: ${(props) => props.isLoading ? "0" : "1"};
+    display: ${(props) => props.isLoading ? "none" : "block"};
   }
 
   @media (max-width: 600px) {
