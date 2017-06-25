@@ -16,7 +16,7 @@ const UserInfoContainer = styled.div`
 const ProfileImage = styled(Link)`
   display: flex;
   content: '';
-  background-color: ${(props) => props.theme.mediumGray};
+  background-color: ${(props) => props.theme.platinum};
   border-radius: 2px;
   margin-right: 10px;
   width: 50px;
@@ -30,13 +30,13 @@ const UsernameLink = styled(Link)`
 `;
 
 const PostDate = styled.div`
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.ashGray};
   margin-top: 3px;
   font-size: 12px;
 `;
 
 const SportLink = styled(Link)`
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.ashGray};
   font-size: 14px;
   text-decoration: none;
 

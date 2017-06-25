@@ -12,12 +12,13 @@
     "moment": "^2.18.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-lazyload": "^2.2.7",
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
     "redux-actions": "^2.0.2",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^1.4.5"
+    "styled-components": "^2.1.0"
   },
   "scripts": {
     "start": "PORT=5001 react-scripts start",

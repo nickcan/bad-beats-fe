@@ -4,32 +4,42 @@ import React from "react";
 import styled from "styled-components";
 
 const CommentsContainer = styled.div`
-  background-color: ${(props) => props.theme.lightGray};
+  background-color: ${(props) => props.theme.whiteSmoke};
   padding: 10px 15px 5px;
 `;
 
 const Comment = styled.div`
-  font-family: Helvetica, sans-serif;
+  font-family: ${(props) => props.theme.mainFont};
   padding-bottom: 8px;
 `;
 
 const UsernameLink = styled(Link)`
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.davysGray};
   cursor: pointer;
   font-weight: bold;
   text-decoration: none;
   margin-right: 6px;
+
+  transition: color, .3s;
+
+  &:hover {
+    color: ${(props) => props.theme.blue};
+  }
 `;
 
 const CommentMessage = styled.div`
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.davysGray};
   font-size: 14px;
   line-height: 20px;
 `;
 
+const CommentDate = styled.div`
+  color: ${(props) => props.theme.ashGray}
+`;
+
 const CommentInput = styled.input`
   box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.mediumGray};
+  border: 1px solid ${(props) => props.theme.gainsboro};
   font-size: 14px;
   outline: none;
   padding: 8px 10px;
@@ -37,13 +47,13 @@ const CommentInput = styled.input`
   width: 100%;
 
   &::placeholder {
-    color: ${(props) => props.theme.mediumGray};
+    color: ${(props) => props.theme.gainsboro};
   }
 `;
 
 const CommentBottomBar = styled.div`
   display: flex;
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.davysGray};
   font-size: 12px;
   font-weight: 100;
   margin-top: 3px;
@@ -60,6 +70,17 @@ const SimpleButton = styled.div`
   }
 `;
 
+const LoadMoreButton = styled.div`
+  border-top: 1px solid ${(props) => props.theme.gainsboro};
+  margin-bottom: 2px;
+  padding: 5px 0;
+  color: ${(props) => props.theme.blue};
+  font-size: 14px;
+  font-weight: 100;
+
+  cursor: pointer;
+`;
+
 class DeleteButton extends React.Component {
   render() {
     if (this.props.activeUser && this.props.commentUserId !== this.props.activeUser.id) return null;
@@ -67,6 +88,19 @@ class DeleteButton extends React.Component {
     return <SimpleButton onClick={this.props.handleClick}>- Delete</SimpleButton>;
   }
 };
+
+const LoadComments = function({
+  ...props
+}) {
+  if (!props.canLoadMoreComments) return null;
+
+  return <LoadMoreButton
+    onClick={() => props.getComments({
+      postId: props.id,
+      offset: props.comments.length === 5 ? 0 : props.comments.length + 1
+    })}
+  >Load more comments</LoadMoreButton>
+}
 
 class Comments extends React.Component {
   constructor(props) {
@@ -89,6 +123,10 @@ class Comments extends React.Component {
     }
   }
 
+  canLoadMoreComments() {
+    return this.props.commentCount > this.props.comments.length;
+  }
+
   render() {
     const formattedCommentDate = moment(this.props.createdAt).format("MMMM Do, h:mm a");
 
@@ -98,14 +136,14 @@ class Comments extends React.Component {
           return (
             <Comment key={comment.id}>
               <CommentMessage>
-                <UsernameLink to={`/users/${comment.user.id}`}>{comment.user.name}</UsernameLink>
+                <UsernameLink to={`/users/${comment.userId}`}>{comment.user.name}</UsernameLink>
                 {comment.message}
               </CommentMessage>
               <CommentBottomBar>
-                <div>{formattedCommentDate}</div>
+                <CommentDate>{formattedCommentDate}</CommentDate>
                 <DeleteButton
                   activeUser={this.props.activeUser}
-                  commentUserId={comment.user.id}
+                  commentUserId={comment.userId}
                   handleClick={() => this.props.deleteComment(comment.id)}
                 >- Delete</DeleteButton>
                 <SimpleButton
@@ -116,6 +154,10 @@ class Comments extends React.Component {
             </Comment>
           );
         })}
+        <LoadComments
+          {...this.props}
+          canLoadMoreComments={this.canLoadMoreComments()}
+        >Load more comments</LoadComments>
         <CommentInput
           placeholder="Write comment..."
           type="text"

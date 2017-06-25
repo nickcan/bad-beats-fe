@@ -6,6 +6,20 @@ const headers = new Headers({
   "Content-Type": "application/json"
 });
 
+export const getComments = function(postId, offset, size) {
+  return fetch(`${ENV_CONFIG.apiDomain}/posts/${postId}/comments?offset=${offset}&size=${size}`, {
+    headers,
+    method: "GET"
+  }).then(async function(response) {
+    if (response.ok) {
+      const data = await response.json();
+      return camelizeKeys(data);
+    } else {
+      throw new Error(response.statusText);
+    }
+  })
+}
+
 export const createComment = function(message, postId) {
   return fetch(`${ENV_CONFIG.apiDomain}/comments`, {
     body: JSON.stringify(decamelizeKeys({

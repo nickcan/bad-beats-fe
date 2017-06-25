@@ -1,11 +1,12 @@
 import { filter } from "lodash";
 
 const initialState = {
+  hasNoMorePosts: false,
   posts: {}
 };
 
 const createPostsObject = function(postsArray = [], postsObject = {}, currentIndex = 0) {
-  if (postsArray.length - 1 <= currentIndex) {
+  if (currentIndex >= postsArray.length) {
     return postsObject;
   } else {
     const nextPost = postsArray[currentIndex];
@@ -29,7 +30,25 @@ const feed = function(state = initialState, action) {
           ...state.posts,
           [action.payload.postId]: {
             ...post,
+            commentCount: post.commentCount + 1,
             comments: [...post.comments, action.payload]
+          }
+        }
+      }
+    }
+
+    case "APPEND_COMMENTS": {
+      const post = state.posts[action.payload.postId];
+      const comments = post.comments.length === 5 ? action.payload.comments : [...post.comments, ...action.payload.comments];
+
+
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          [action.payload.postId]: {
+            ...post,
+            comments
           }
         }
       }
@@ -44,16 +63,32 @@ const feed = function(state = initialState, action) {
           ...state.posts,
           [action.payload.postId]: {
             ...post,
+            commentCount: post.commentCount - 1,
             comments: filter(post.comments, (comment) => comment.id !== action.payload.id)
           }
         }
       }
     }
 
+    case "RESET_FEED": {
+      return initialState;
+    }
+
     case "INITIALIZE_POSTS": {
       return {
-        ...state,
+        ...initialState,
         posts: createPostsObject(action.payload)
+      };
+    }
+
+    case "APPEND_POSTS": {
+      return {
+        ...state,
+        hasNoMorePosts: action.payload.length === 0,
+        posts: {
+          ...state.posts,
+          ...createPostsObject(action.payload)
+        }
       };
     }
 
@@ -101,4 +136,3 @@ const feed = function(state = initialState, action) {
 }
 
 export default feed;
-

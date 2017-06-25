@@ -4,12 +4,10 @@ import styled from "styled-components";
 const VotesContainer = styled.div`
   display: flex;
   align-items: center;
-  border-top: 1px solid ${(props) => props.theme.mediumGray};
-  padding: 15px;
 `;
 
 const VoteIcon = styled.div`
-  background-color: ${(props) => props.currentUserHasVoted ? props.theme.charcoal : props.theme.mediumGray};
+  background-color: ${(props) => props.currentUserHasVoted ? props.theme.charlestonGreen : props.theme.platinum};
   border-radius: 50%;
   cursor: pointer;
   height: 30px;
@@ -18,7 +16,7 @@ const VoteIcon = styled.div`
 `;
 
 const VoteCount = styled.div`
-  color: ${(props) => props.theme.mediumGray};
+  color: ${(props) => props.theme.ashGray};
   font-size: 12px;
   padding-top: 2px;
 `;

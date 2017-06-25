@@ -1,7 +1,7 @@
-import { RingLoader } from "halogen";
 import React from "react";
 import styled from "styled-components";
 
+import PostImage from "./post-image";
 import Votes from "../votes";
 
 const BodyContainer = styled.div`
@@ -12,9 +12,9 @@ const BodyContainer = styled.div`
 
 const TextContainer = styled.div`
   box-sizing: border-box;
-  color: ${(props) => props.theme.charcoal};
+  color: ${(props) => props.theme.davysGray};
   font-size: 18px;
-  font-family: Helvetica, sans-serif;
+  font-family: ${(props) => props.theme.mainFont};
   line-height: 22px;
   font-weight: 100;
   margin: 5px 0 20px;
@@ -25,66 +25,28 @@ const TextContainer = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
-  align-items: center;
+const ActionBar = styled.div`
   display: flex;
-  justify-content: center;
-  background-color: ${(props) => props.theme.mediumGray};
-  min-height: 300px;
+  align-items: center;
+  justify-content: space-between;
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (max-width: 600px) {
-    min-height: 150px;
-  }
+  border-top: 1px solid ${(props) => props.theme.whiteSmoke};
+  padding: 15px;
 `;
 
-class Loader extends React.Component {
-  render() {
-    if (!this.props.isLoading) return null;
+const CommentCountContainer = styled.div`
+  padding-top: 2px;
 
-    return (
-      <RingLoader
-        color="#fff"
-        size="40px"
-      />
-    );
-  }
-}
+  color: ${(props) => props.theme.ashGray};
+  font-size: 12px;
+`;
 
-class PostImage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadingStatus: "loading"
-    }
-  }
+const CommentCount = function({
+  ...props
+}) {
+  if (props.commentCount <= 0) return null;
 
-  handleImageError() {
-    this.setState({ loadingStatus: "failed" });
-  }
-
-  handleImageLoaded() {
-    this.setState({ loadingStatus: "loaded" });
-  }
-
-  render() {
-    if (!this.props.image || !this.props.image.url) return null;
-
-    return (
-      <ImageContainer>
-        <Loader isLoading={this.props.loadingStatus === "loading"} />
-        <img
-          src={this.props.image.url} alt=""
-          onError={() => this.handleImageError()}
-          onLoad={() => this.handleImageLoaded()}
-        />
-      </ImageContainer>
-    );
-  }
+  return <CommentCountContainer>Comments {props.commentCount}</CommentCountContainer>
 }
 
 class PostBody extends React.Component {
@@ -93,11 +55,14 @@ class PostBody extends React.Component {
       <BodyContainer>
         <TextContainer>{this.props.text}</TextContainer>
         <PostImage image={this.props.images[0]} />
-        <Votes
-          currentUserHasVoted={this.props.currentUserHasVoted}
-          handleClick={() => this.props.votePost(this.props.id, this.props.currentUserHasVoted)}
-          voteCount={this.props.voteCount}
-        />
+        <ActionBar>
+          <Votes
+            currentUserHasVoted={this.props.currentUserHasVoted}
+            handleClick={() => this.props.votePost(this.props.id, this.props.currentUserHasVoted)}
+            voteCount={this.props.voteCount}
+          />
+          <CommentCount commentCount={this.props.commentCount} />
+        </ActionBar>
       </BodyContainer>
     );
   }

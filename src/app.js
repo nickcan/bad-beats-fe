@@ -8,6 +8,7 @@ import * as ActiveUserActions from "./actions/active-user-actions";
 import AppHeader from "./components/app-header";
 import Home from "./components/home";
 import PageNotFound from "./components/page-not-found";
+import UserProfile from "./containers/user-profile";
 
 class App extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/sports/:sport" component={Home} />
+          <Route path="/users/:id" component={UserProfile} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
