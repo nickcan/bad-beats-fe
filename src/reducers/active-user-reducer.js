@@ -1,8 +1,8 @@
 const initialState = {
-  "email": "",
-  "id": "",
-  "image_url": "",
-  "name": ""
+  email: "",
+  id: "",
+  image_url: "",
+  name: ""
 };
 
 const activeUser = function(state = initialState, action) {

@@ -53,6 +53,7 @@ const InfoContainer = styled.div`
 const Name = styled.div`
   height: 40px;
   margin-bottom: 10px;
+  padding: 0 10px;
 
   color: ${(props) => props.theme.charlestonGreen};
   font-family: ${(props) => props.theme.mainFont};
@@ -62,6 +63,7 @@ const Name = styled.div`
 
 const ShortBio = styled.div`
   margin-bottom: 20px;
+  padding: 0 10px;
 
   color: ${(props) => props.theme.davysGray};
   font-size: 20px;

@@ -88,7 +88,7 @@ const BoxingGloveIcon = styled.div`
 `;
 
 const UserSettingsIcon = styled.div`
-  background-color: ${(props) => props.theme.babyPowder}
+  background-color: ${(props) => props.theme.babyPowder};
   border: 2px solid white;
   cursor: pointer;
   border-radius: 20%;
@@ -98,6 +98,8 @@ const UserSettingsIcon = styled.div`
 
 class AppHeader extends React.Component {
   render() {
+    if (!localStorage.getItem("authToken")) return null;
+
     return (
       <Header>
         <InnerContainer>
@@ -108,7 +110,7 @@ class AppHeader extends React.Component {
           <ActionBar>
             <SearchIcon />
             <BoxingGloveIcon />
-            <UserSettingsIcon />
+            <UserSettingsIcon onClick={this.props.handleLogoutUser} />
           </ActionBar>
         </InnerContainer>
       </Header>
