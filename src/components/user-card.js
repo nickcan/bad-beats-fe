@@ -16,7 +16,7 @@ const CardContainer = styled.div`
 
   background-color: ${(props) => props.theme.white};
   border: 1px solid ${(props) => props.theme.platinum};
-  border-radius: 2px;
+  border-radius: 3px;
 
   @media (max-width: 650px) {
     width: 100%;

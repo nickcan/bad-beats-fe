@@ -17,6 +17,10 @@ const ListContainer = styled.div`
   width: 100%;
 
   color: ${(props) => props.theme.charlestonGreen};
+
+  @media (max-width: 650px) {
+    width: 96%;
+  }
 `;
 
 class ListOfUsers extends React.Component {

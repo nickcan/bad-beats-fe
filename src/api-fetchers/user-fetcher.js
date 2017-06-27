@@ -11,37 +11,29 @@ const createHeaders = function() {
 export const authenticate = function(request) {
   return fetch(`${ENV_CONFIG.apiDomain}/auth_user`, {
     body: JSON.stringify(decamelizeKeys(request)),
-    method: "POST",
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: "POST"
   }).then(async function(response) {
-    if (response.ok) {
-      const data = await response.json();
-      return camelizeKeys(data);
-    } else {
-      throw new Error(response.statusText);
-    }
+    const data = await response.json();
+    return camelizeKeys(data);
   })
 }
 
 export const createUser = function(request) {
   return fetch(`${ENV_CONFIG.apiDomain}/users`, {
     body: JSON.stringify(decamelizeKeys(request)),
-    method: "POST",
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: "POST"
   }).then(async function(response) {
-    if (response.ok) {
-      const data = await response.json();
-      return camelizeKeys(data);
-    } else {
-      throw new Error(response.statusText);
-    }
+    const data = await response.json();
+    return camelizeKeys(data);
   })
 }
 
 export const getActiveUser = function() {
   return fetch(`${ENV_CONFIG.apiDomain}/active_user`, {
-    method: "GET",
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -54,8 +46,8 @@ export const getActiveUser = function() {
 
 export const getUser = function(id) {
   return fetch(`${ENV_CONFIG.apiDomain}/users/${id}`, {
-    method: "GET",
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -69,8 +61,8 @@ export const getUser = function(id) {
 export const postFollowing = function(request, requestType) {
   return fetch(`${ENV_CONFIG.apiDomain}/followings`, {
     body: JSON.stringify(decamelizeKeys(request)),
-    method: requestType,
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: requestType
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -83,8 +75,8 @@ export const postFollowing = function(request, requestType) {
 
 export const getUsers = function(userId, type, page) {
   return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/${type}?page=${page}&size=24`, {
-    method: "GET",
-    headers: createHeaders()
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();

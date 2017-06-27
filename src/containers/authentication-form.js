@@ -44,21 +44,12 @@ const Logo = styled.div`
   background-size: 100% 100%;
 `;
 
-const InputField = styled.input`
-  margin-bottom: 12px;
-  padding: 8px 10px;
-  width: 100%;
-
-  border: 1px solid ${(props) => props.theme.gainsboro};
-  border-radius: 3px;
-`;
-
 const StyledForm = styled.form`
   align-items: center;
   display: flex;
   flex-direction: column;
 
-  width: 80%;
+  width: 85%;
 `;
 
 const SubmitButton = styled.button`
@@ -86,11 +77,61 @@ const SwitchFormLink = styled(Link)`
   text-decoration: none;
 `;
 
+const InputFieldContainer = styled.div`
+  width: 100%;
+`;
+
+const StyledInput = styled.input`
+  box-sizing: border-box;
+
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  width: 100%;
+
+  border: 1px solid ${(props) => props.hasError ? props.theme.safetyOrange : props.theme.gainsboro};
+  border-radius: 3px;
+  outline: none;
+
+  transition: border, .25s;
+
+  &:focus {
+    box-shadow: inset 0 0 1px 0 ${(props) => props.hasError ? props.theme.safetyOrange : props.theme.davysGray};
+  }
+`;
+
+const StyledLabel = styled.div`
+  align-self: flex-start;
+  opacity: ${(props) => props.hasError ? 1 : 0};
+
+  height: 14px;
+  margin: 0 0 4px 1px;
+
+  color: ${(props) => props.theme.safetyOrange};
+  font-size: 14px;
+
+  transition: opacity, .25s;
+`;
+
+const InputField = function({
+  ...props
+}) {
+  return (
+    <InputFieldContainer>
+      <StyledLabel hasError={props.error}>{props.error}</StyledLabel>
+      <StyledInput
+        {...props}
+        hasError={props.error}
+      />
+    </InputFieldContainer>
+  );
+}
+
 const LoginForm = ({
   ...props
 }) => (
   <StyledForm onSubmit={(event) => props.submitForm(event)}>
     <InputField
+      error={props.errors.invalid}
       placeholder="Email"
       type="email"
       value={props.email}
@@ -100,6 +141,7 @@ const LoginForm = ({
       })}
     />
     <InputField
+      error={props.errors.password}
       placeholder="Password"
       type="password"
       value={props.password}
@@ -120,6 +162,7 @@ const SignupForm = ({
 }) => (
   <StyledForm onSubmit={(event) => props.submitForm(event)}>
     <InputField
+      error={props.errors.email}
       placeholder="Email"
       type="email"
       value={props.email}
@@ -129,6 +172,7 @@ const SignupForm = ({
       })}
     />
     <InputField
+      error={props.errors.name}
       placeholder="Name"
       value={props.name}
       onChange={(event) => props.updateAuthenticationForm({
@@ -137,6 +181,7 @@ const SignupForm = ({
       })}
     />
     <InputField
+      error={props.errors.username}
       placeholder="Username"
       value={props.username}
       onChange={(event) => props.updateAuthenticationForm({
@@ -145,6 +190,7 @@ const SignupForm = ({
       })}
     />
     <InputField
+      error={props.errors.password}
       placeholder="Password"
       type="password"
       value={props.password}
@@ -186,13 +232,9 @@ const mapDispatchToProps = function(dispatch, props) {
     submitForm: async function(event) {
       event.preventDefault();
       if (props.location.pathname === "/signup") {
-        await dispatch(AuthenticationFormActions.signup());
-        dispatch(AuthenticationFormActions.resetAuthenticationForm());
-        props.history.push("/");
+        dispatch(AuthenticationFormActions.signup());
       } else {
-        await dispatch(AuthenticationFormActions.login());
-        dispatch(AuthenticationFormActions.resetAuthenticationForm());
-        props.history.push("/");
+        dispatch(AuthenticationFormActions.login());
       }
     }
   };

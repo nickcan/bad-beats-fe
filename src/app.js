@@ -15,6 +15,19 @@ import Home from "./components/home";
 import PageNotFound from "./components/page-not-found";
 import UserProfile from "./containers/user-profile";
 
+const AuthenticationRoute = ({ component: Component, ...rest }) => {
+  return <Route {...rest} render={props => (
+    localStorage.getItem("authToken") ? (
+      <Redirect to={{
+        pathname: '/',
+        state: { from: props.location }
+      }}/>
+    ) : (
+      <Component {...props} />
+    )
+  )}/>
+};
+
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={props => (
     localStorage.getItem("authToken") ? (
@@ -49,8 +62,8 @@ class App extends React.Component {
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute path="/sports/:sport" component={Home} />
           <PrivateRoute path="/users/:id" component={UserProfile} />
-          <Route path="/login" component={AuthenticationForm} />
-          <Route path="/signup" component={AuthenticationForm} />
+          <AuthenticationRoute path="/login" component={AuthenticationForm} />
+          <AuthenticationRoute path="/signup" component={AuthenticationForm} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
