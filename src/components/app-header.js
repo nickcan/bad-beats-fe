@@ -104,7 +104,7 @@ class AppHeader extends React.Component {
       <Header>
         <InnerContainer>
           <LogoContainerLink to="/">
-            <Logo></Logo>
+            <Logo />
             <LogoName>Fantasy <br /> Bad Beats</LogoName>
           </LogoContainerLink>
           <ActionBar>

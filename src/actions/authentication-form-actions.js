@@ -33,12 +33,18 @@ export const signup = function() {
   return async function(dispatch, getState) {
     const formData = getState().authenticationForm;
 
+    if (formData.password !== formData.passwordConfirmation) {
+      dispatch(addAuthenticationErrors({
+        password: "password fields don't match"
+      }));
+      return;
+    }
+
     const request = {
       user: {
         email: formData.email,
         name: formData.name,
-        password: formData.password,
-        username: formData.username
+        password: formData.password
       }
     };
 

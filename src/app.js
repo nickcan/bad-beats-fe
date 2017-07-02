@@ -29,16 +29,25 @@ const AuthenticationRoute = ({ component: Component, ...rest }) => {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={props => (
-    localStorage.getItem("authToken") ? (
-      <Component {...props} />
-    ) : (
-      <Redirect to={{
+  const urlParams = new URLSearchParams(rest.location.search);
+  const authTokenInUrl = urlParams.get("auth_token");
+
+  return <Route {...rest} render={function(props) {
+    if (authTokenInUrl) {
+      localStorage.setItem("authToken", authTokenInUrl);
+      return <Redirect to={{
+        pathname: '/',
+        state: { from: props.location }
+      }}/>
+    } else if (localStorage.getItem("authToken")) {
+      return <Component {...props} />
+    } else {
+      return <Redirect to={{
         pathname: '/login',
         state: { from: props.location }
       }}/>
-    )
-  )}/>
+    }
+  }}/>
 };
 
 class App extends React.Component {

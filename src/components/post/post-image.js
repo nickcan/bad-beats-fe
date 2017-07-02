@@ -8,7 +8,7 @@ const ImageContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  background-color: ${(props) => props.theme.charlestonGreen};
+  background-color: ${(props) => props.isLoading ? props.theme.charlestonGreen : "inherit"};
   min-height: 300px;
 
   img {

@@ -8,11 +8,14 @@ import * as AuthenticationFormActions from "../actions/authentication-form-actio
 
 import logo from "../static-assets/boxing_logo_big.png";
 
+import ENV from "../api-fetchers/env-config";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
+
+  padding-bottom: 25px;
   width: 100%;
-  height: 100vh;
 
   font-family: ${(props) => props.theme.mainFont};
 `;
@@ -38,10 +41,28 @@ const AppName = styled.div`
 const Logo = styled.div`
   height: 100px;
   width: 100px;
-  margin-bottom: 46px;
+  margin-bottom: 35px;
 
   background: url(${logo}) no-repeat center center;
   background-size: 100% 100%;
+`;
+
+const FacebookLoginLink = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+  width: 85%;
+  margin-bottom: 12px;
+
+  background-color: ${(props) => props.theme.blue};
+  border-radius: 3px;
+
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  text-decoration: none;
 `;
 
 const StyledForm = styled.form`
@@ -84,7 +105,7 @@ const InputFieldContainer = styled.div`
 const StyledInput = styled.input`
   box-sizing: border-box;
 
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   padding: 8px 10px;
   width: 100%;
 
@@ -162,6 +183,15 @@ const SignupForm = ({
 }) => (
   <StyledForm onSubmit={(event) => props.submitForm(event)}>
     <InputField
+      error={props.errors.name}
+      placeholder="Full Name"
+      value={props.name}
+      onChange={(event) => props.updateAuthenticationForm({
+        field: "name",
+        value: event.target.value
+      })}
+    />
+    <InputField
       error={props.errors.email}
       placeholder="Email"
       type="email"
@@ -172,30 +202,22 @@ const SignupForm = ({
       })}
     />
     <InputField
-      error={props.errors.name}
-      placeholder="Name"
-      value={props.name}
-      onChange={(event) => props.updateAuthenticationForm({
-        field: "name",
-        value: event.target.value
-      })}
-    />
-    <InputField
-      error={props.errors.username}
-      placeholder="Username"
-      value={props.username}
-      onChange={(event) => props.updateAuthenticationForm({
-        field: "username",
-        value: event.target.value
-      })}
-    />
-    <InputField
       error={props.errors.password}
       placeholder="Password"
       type="password"
       value={props.password}
       onChange={(event) => props.updateAuthenticationForm({
         field: "password",
+        value: event.target.value
+      })}
+    />
+    <InputField
+      error={props.errors.passwordConfirmation}
+      placeholder="Password Confirmation"
+      type="password"
+      value={props.passwordConfirmation}
+      onChange={(event) => props.updateAuthenticationForm({
+        field: "passwordConfirmation",
         value: event.target.value
       })}
     />
@@ -219,6 +241,7 @@ class AuthenticationForm extends React.Component {
         <SubContainer>
           <AppName>Fantasy Bad Beats</AppName>
           <Logo />
+          <FacebookLoginLink href={`${ENV.apiDomain}/auth/facebook`} alt="facebook signin">Log in with Facebook</FacebookLoginLink>
           <CurrentForm {...this.props} />
         </SubContainer>
       </Container>

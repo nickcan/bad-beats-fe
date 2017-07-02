@@ -2,7 +2,7 @@ const initialState = {
   email: "",
   name: "",
   password: "",
-  username: "",
+  passwordConfirmation: "",
   errors: {}
 };
 
