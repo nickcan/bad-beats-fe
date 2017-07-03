@@ -8,7 +8,7 @@ import * as AuthenticationFormActions from "../actions/authentication-form-actio
 
 import logo from "../static-assets/boxing_logo_big.png";
 
-import ENV from "../api-fetchers/env-config";
+import ENV_CONFIG from "../api-fetchers/env-config";
 
 const Container = styled.div`
   display: flex;
@@ -241,7 +241,7 @@ class AuthenticationForm extends React.Component {
         <SubContainer>
           <AppName>Fantasy Bad Beats</AppName>
           <Logo />
-          <FacebookLoginLink href={`${ENV.apiDomain}/auth/facebook`} alt="facebook signin">Log in with Facebook</FacebookLoginLink>
+          <FacebookLoginLink href={`${ENV_CONFIG.apiDomain}/auth/facebook`} alt="facebook signin">Log in with Facebook</FacebookLoginLink>
           <CurrentForm {...this.props} />
         </SubContainer>
       </Container>

@@ -29,8 +29,7 @@ const AuthenticationRoute = ({ component: Component, ...rest }) => {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const urlParams = new URLSearchParams(rest.location.search);
-  const authTokenInUrl = urlParams.get("auth_token");
+  const authTokenInUrl = rest.location.search.split("auth_token=")[1];
 
   return <Route {...rest} render={function(props) {
     if (authTokenInUrl) {
