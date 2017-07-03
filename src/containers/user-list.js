@@ -13,7 +13,6 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 
-  min-height: 400px;
   width: 100%;
 
   color: ${(props) => props.theme.charlestonGreen};

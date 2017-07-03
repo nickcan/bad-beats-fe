@@ -15,39 +15,7 @@ import Home from "./components/home";
 import PageNotFound from "./components/page-not-found";
 import UserProfile from "./containers/user-profile";
 
-const AuthenticationRoute = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={props => (
-    localStorage.getItem("authToken") ? (
-      <Redirect to={{
-        pathname: '/',
-        state: { from: props.location }
-      }}/>
-    ) : (
-      <Component {...props} />
-    )
-  )}/>
-};
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const authTokenInUrl = rest.location.search.split("auth_token=")[1];
-
-  return <Route {...rest} render={function(props) {
-    if (authTokenInUrl) {
-      localStorage.setItem("authToken", authTokenInUrl);
-      return <Redirect to={{
-        pathname: '/',
-        state: { from: props.location }
-      }}/>
-    } else if (localStorage.getItem("authToken")) {
-      return <Component {...props} />
-    } else {
-      return <Redirect to={{
-        pathname: '/login',
-        state: { from: props.location }
-      }}/>
-    }
-  }}/>
-};
+import { AuthenticationRoute, PrivateRoute } from "./helpers/routing-helpers";
 
 class App extends React.Component {
   constructor(props) {
