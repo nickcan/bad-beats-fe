@@ -5,6 +5,9 @@ import Feed from "../containers/feed";
 
 const FeedContainer = styled.div`
   display: flex;
+  align-items: center;
+  flex-direction: column;
+
   margin: 42px auto;
   height: 400px;
   width: 650px;

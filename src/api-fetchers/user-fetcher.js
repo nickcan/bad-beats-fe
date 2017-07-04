@@ -1,15 +1,39 @@
 import { camelizeKeys, decamelizeKeys } from "humps";
 import ENV_CONFIG from "./env-config";
 
-const headers = new Headers({
-  "Authorization": localStorage.getItem("authToken"),
-  "Content-Type": "application/json"
-});
+const createHeaders = function() {
+  return new Headers({
+    "Authorization": localStorage.getItem("authToken"),
+    "Content-Type": "application/json"
+  });
+}
+
+export const authenticate = function(request) {
+  return fetch(`${ENV_CONFIG.apiDomain}/auth_user`, {
+    body: JSON.stringify(decamelizeKeys(request)),
+    headers: createHeaders(),
+    method: "POST"
+  }).then(async function(response) {
+    const data = await response.json();
+    return camelizeKeys(data);
+  })
+}
+
+export const createUser = function(request) {
+  return fetch(`${ENV_CONFIG.apiDomain}/users`, {
+    body: JSON.stringify(decamelizeKeys(request)),
+    headers: createHeaders(),
+    method: "POST"
+  }).then(async function(response) {
+    const data = await response.json();
+    return camelizeKeys(data);
+  })
+}
 
 export const getActiveUser = function() {
   return fetch(`${ENV_CONFIG.apiDomain}/active_user`, {
-    method: "GET",
-    headers
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -22,24 +46,8 @@ export const getActiveUser = function() {
 
 export const getUser = function(id) {
   return fetch(`${ENV_CONFIG.apiDomain}/users/${id}`, {
-    method: "GET",
-    headers
-  }).then(async function(response) {
-    if (response.ok) {
-      const data = await response.json();
-      return camelizeKeys(data);
-    } else {
-      throw new Error(response.statusText);
-    }
-  })
-};
-
-export const postAuthUser = function(userAuthData) {
-  return fetch(`${ENV_CONFIG.apiDomain}/auth_user`, {
-    body: JSON.stringify(decamelizeKeys(userAuthData)),
-    method: "POST",
-    headers,
-    mode: "cors"
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -53,8 +61,8 @@ export const postAuthUser = function(userAuthData) {
 export const postFollowing = function(request, requestType) {
   return fetch(`${ENV_CONFIG.apiDomain}/followings`, {
     body: JSON.stringify(decamelizeKeys(request)),
-    method: requestType,
-    headers
+    headers: createHeaders(),
+    method: requestType
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();
@@ -67,8 +75,8 @@ export const postFollowing = function(request, requestType) {
 
 export const getUsers = function(userId, type, page) {
   return fetch(`${ENV_CONFIG.apiDomain}/users/${userId}/${type}?page=${page}&size=24`, {
-    method: "GET",
-    headers
+    headers: createHeaders(),
+    method: "GET"
   }).then(async function(response) {
     if (response.ok) {
       const data = await response.json();

@@ -1,14 +1,17 @@
 import { camelizeKeys, decamelizeKeys } from "humps";
 import ENV_CONFIG from "./env-config";
 
-const headers = new Headers({
-  "Authorization": localStorage.getItem("authToken"),
-  "Content-Type": "application/json"
-});
+
+const createHeaders = function() {
+  return new Headers({
+    "Authorization": localStorage.getItem("authToken"),
+    "Content-Type": "application/json"
+  });
+}
 
 export const getComments = function(postId, offset, size) {
   return fetch(`${ENV_CONFIG.apiDomain}/posts/${postId}/comments?offset=${offset}&size=${size}`, {
-    headers,
+    headers: createHeaders(),
     method: "GET"
   }).then(async function(response) {
     if (response.ok) {
@@ -26,7 +29,7 @@ export const createComment = function(message, postId) {
       message,
       postId
     })),
-    headers,
+    headers: createHeaders(),
     method: "POST"
   }).then(async function(response) {
     if (response.ok) {
@@ -40,7 +43,7 @@ export const createComment = function(message, postId) {
 
 export const deleteComment = function(id) {
   return fetch(`${ENV_CONFIG.apiDomain}/comments/${id}`, {
-    headers,
+    headers: createHeaders(),
     method: "DELETE"
   }).then(async function(response) {
     if (response.ok) {

@@ -1,14 +1,20 @@
-import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  Route,
+  Switch
+} from "react-router-dom";
 import React from "react";
 
 import * as ActiveUserActions from "./actions/active-user-actions";
 
 import AppHeader from "./components/app-header";
+import AuthenticationForm from "./containers/authentication-form";
 import Home from "./components/home";
 import PageNotFound from "./components/page-not-found";
 import UserProfile from "./containers/user-profile";
+
+import { AuthenticationRoute, PrivateRoute } from "./helpers/routing-helpers";
 
 class App extends React.Component {
   constructor(props) {
@@ -22,12 +28,17 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <AppHeader activeUser={this.props.activeUser} />
+        <AppHeader
+          activeUser={this.props.activeUser}
+          handleLogoutUser={this.props.logoutUser}
+        />
 
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/sports/:sport" component={Home} />
-          <Route path="/users/:id" component={UserProfile} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} exact path="/" component={Home} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/sports/:sport" component={Home} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/users/:id" component={UserProfile} />
+          <AuthenticationRoute path="/login" component={AuthenticationForm} />
+          <AuthenticationRoute path="/signup" component={AuthenticationForm} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
@@ -35,9 +46,14 @@ class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = function(dispatch) {
+const mapDispatchToProps = function(dispatch, props) {
   return {
-    ...bindActionCreators(ActiveUserActions, dispatch)
+    ...bindActionCreators(ActiveUserActions, dispatch),
+    logoutUser: function() {
+      dispatch(ActiveUserActions.logoutUser());
+      localStorage.setItem("authToken", "");
+      props.history.push("/login");
+    }
   };
 };
 

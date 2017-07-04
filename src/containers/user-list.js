@@ -13,10 +13,13 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 
-  min-height: 400px;
   width: 100%;
 
   color: ${(props) => props.theme.charlestonGreen};
+
+  @media (max-width: 650px) {
+    width: 96%;
+  }
 `;
 
 class ListOfUsers extends React.Component {

@@ -5,8 +5,9 @@ import styled from "styled-components";
 
 import * as UserProfileActions from "../actions/user-profile-actions";
 
-import FollowButton from "../components/follow-button";
 import Feed from "./feed";
+import FollowButton from "../components/follow-button";
+import ProfileStats from "../components/profile-stats";
 import UserList from "./user-list";
 
 const Canopy = styled.div`
@@ -26,11 +27,12 @@ const ProfileImage = styled.div`
   position: relative;
   top: 110px;
 
-  border-radius: 100%;
-
   height: 165px;
   width: 165px;
+
   background-color: ${(props) => props.theme.platinum};
+  border: 6px solid ${(props) => props.theme.white};
+  border-radius: 100%;
 `;
 
 const InfoContainer = styled.div`
@@ -53,6 +55,7 @@ const InfoContainer = styled.div`
 const Name = styled.div`
   height: 40px;
   margin-bottom: 10px;
+  padding: 0 10px;
 
   color: ${(props) => props.theme.charlestonGreen};
   font-family: ${(props) => props.theme.mainFont};
@@ -62,94 +65,12 @@ const Name = styled.div`
 
 const ShortBio = styled.div`
   margin-bottom: 20px;
+  padding: 0 10px;
 
   color: ${(props) => props.theme.davysGray};
   font-size: 20px;
   text-align: center;
 `;
-
-const TabsContainer = styled.div`
-  width: 100%;
-  margin-top: 40px;
-`;
-
-const TabListContainer = styled.div`
-  display: flex;
-
-  margin-bottom: 10px;
-  width: 100%;
-
-  background-color: white;
-  border-radius: 2px;
-`;
-
-const StyledTab = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1 1 0;
-
-  height: 70px;
-
-  border: 1px solid ${(props) => props.theme.platinum};
-  border-left: 0;
-  border-bottom: 1px solid ${(props) => props.isActive ? props.theme.safetyOrange : props.theme.platinum};
-  box-shadow: ${(props) => props.isActive ? `inset 0 -1px 0 ${props.theme.safetyOrange}` : "initial"};
-
-  color: ${(props) => props.theme.davysGray};
-
-  font-size: 16px;
-  text-align: center;
-
-  cursor: pointer;
-  transition: border-bottom, .5s;
-
-  div {
-    color: ${(props) => props.theme.charlestonGreen};
-    font-size: 24px;
-  }
-
-  &:last-child {
-    border-right: 0;
-  }
-`;
-
-const UserStats = ({
-  ...props
-}) => (
-  <TabsContainer>
-    <TabListContainer>
-      <StyledTab
-        isActive={props.activeTab === "posts"}
-        onClick={() => props.activateTab("posts")}
-      >
-        <div>
-          {props.postCount}
-        </div>
-        Posts
-      </StyledTab>
-      <StyledTab
-        isActive={props.activeTab === "followers"}
-        onClick={() => props.activateTab("followers")}
-      >
-        <div>
-          {props.followerCount}
-        </div>
-        Followers
-      </StyledTab>
-      <StyledTab
-        isActive={props.activeTab === "following"}
-        onClick={() => props.activateTab("following")}
-      >
-        <div>
-          {props.followingCount}
-        </div>
-        Following
-      </StyledTab>
-    </TabListContainer>
-  </TabsContainer>
-);
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -204,7 +125,7 @@ class UserProfile extends React.Component {
             isNotFollowable={this.props.activeUser.id === this.props.id}
             handleClick={() => this.props.followUser(this.props.id, this.props.isActiveUserFollowing)}
           />
-          <UserStats
+          <ProfileStats
             {...this.props}
             {...this.state}
             activateTab={(tabName) => this.setState({activeTab: tabName})}

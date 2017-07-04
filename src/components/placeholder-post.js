@@ -2,7 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
-  width: 100%;
+  width: 96%;
 `;
 
 const PostContainer = styled.div`
@@ -16,11 +16,6 @@ const PostContainer = styled.div`
 
   @media (max-width: 650px) {
     margin-bottom: 12px;
-
-    border: 0;
-    border-bottom: 1px solid ${(props) => props.theme.gainsboro};
-    border-top: 1px solid ${(props) => props.theme.gainsboro};
-    border-radius: 0;
   }
 `;
 

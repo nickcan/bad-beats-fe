@@ -16,7 +16,7 @@ const CardContainer = styled.div`
 
   background-color: ${(props) => props.theme.white};
   border: 1px solid ${(props) => props.theme.platinum};
-  border-radius: 2px;
+  border-radius: 3px;
 
   @media (max-width: 650px) {
     width: 100%;
@@ -36,13 +36,14 @@ const InnerBackground = styled.div`
 const ProfileImage = styled(Link)`
   position: absolute;
   left: 15px;
-  bottom: -20px;
+  bottom: -25px;
 
   height: 80px;
   width: 80px;
 
   background-color: ${(props) => props.theme.platinum};
-  border-radius: 4px;
+  border: 4px solid ${(props) => props.theme.white};
+  border-radius: 14px;
 `;
 
 const AbsoluteFollowButton = styled.div`
@@ -61,7 +62,7 @@ const Name = styled(Link)`
 const StatContainer = styled.div`
   display: flex;
 
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
 `;
 
@@ -72,14 +73,15 @@ const Stat = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  height: 50px;
+  height: 60px;
 
   color: ${(props) => props.theme.charlestonGreen};
-  font-size: 20px;
+  font-size: 22px;
 
   div {
     color: ${(props) => props.theme.davysGray};
-    font-size: 12px;
+    font-size: 14px;
+    opacity: 0.7;
   }
 `;
 

@@ -12,6 +12,10 @@ import Post from "../components/post";
 
 const PostsContainer = styled.div`
   width: 100%;
+
+  @media (max-width: 650px) {
+    width: 96%;
+  }
 `;
 
 class Feed extends React.Component {
