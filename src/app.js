@@ -2,7 +2,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
   Route,
-  Redirect,
   Switch
 } from "react-router-dom";
 import React from "react";
@@ -35,9 +34,9 @@ class App extends React.Component {
         />
 
         <Switch>
-          <PrivateRoute exact path="/" component={Home} />
-          <PrivateRoute path="/sports/:sport" component={Home} />
-          <PrivateRoute path="/users/:id" component={UserProfile} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} exact path="/" component={Home} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/sports/:sport" component={Home} />
+          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/users/:id" component={UserProfile} />
           <AuthenticationRoute path="/login" component={AuthenticationForm} />
           <AuthenticationRoute path="/signup" component={AuthenticationForm} />
           <Route component={PageNotFound} />

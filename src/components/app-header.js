@@ -12,7 +12,7 @@ const Header = styled.div`
   justify-content: center;
   left: 0;
   top: 0;
-  min-height: 66px;
+  min-height: 58px;
 
   @media (max-width: 1000px) {
     padding: 0 20px;
@@ -51,8 +51,8 @@ const LogoContainerLink = styled(Link)`
 const LogoName = styled.div`
   color: ${(props) => props.theme.babyPowder};
   font-family: ${(props) => props.theme.mainFont};
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 18px;
+  font-weight: 200;
 `;
 
 const ActionBar = styled.div`
@@ -96,7 +96,115 @@ const UserSettingsIcon = styled.div`
   width: 30px;
 `;
 
+const UserSettingsContainer = styled.div`
+  position: relative;
+`;
+
+const UserSettingsDropdown = styled.div`
+  position: absolute;
+  right: -5px;
+
+  padding-bottom: 10px;
+  margin-top: 14px;
+  width: 150px;
+
+  background-color: ${(props) => props.theme.white};
+  box-shadow: 0 0 1px 0 ${(props) => props.theme.davysGray};
+  border-radius: 5px;
+
+  color: ${(props) => props.theme.davysGray};
+
+  z-index: 1;
+
+  &:before {
+    top: -20px;
+    right: 11px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(242, 242, 242, 0);
+    border-bottom-color: ${(props) => props.theme.white};
+    border-width: 11px;
+    margin-left: -11px;
+  }
+`;
+
+const SettingsOptionContainerLink = styled(Link)`
+  text-decoration: none;
+  color: ${(props) => props.theme.davysGray};
+`;
+
+const SettingsHeader = styled.div`
+  box-sizing: border-box;
+
+  margin-bottom: 10px;
+  padding: 20px;
+  width: 100%;
+
+  border-bottom: 1px solid ${(props) => props.theme.platinum};
+
+  cursor: pointer;
+`;
+
+const SettingsOption = styled.div`
+  box-sizing: border-box;
+  padding: 12px 20px;
+  width: 100%;
+
+  cursor: pointer;
+
+  transition: background-color, color, .1.5s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.blue};
+    color: ${(props) => props.theme.white};
+  }
+`;
+
+const UserSettings = function({
+  ...props
+}) {
+  if (!props.isOpen) return <UserSettingsIcon onClick={props.handleToggleSettings} />;
+
+  return (
+    <UserSettingsContainer onClick={props.handleToggleSettings}>
+      <UserSettingsIcon />
+      <UserSettingsDropdown>
+        <SettingsOptionContainerLink to={`/users/${props.activeUser.id}`}>
+          <SettingsHeader>
+            {props.activeUser.name}
+          </SettingsHeader>
+        </SettingsOptionContainerLink>
+        <SettingsOptionContainerLink to={`/posts/new`}>
+          <SettingsOption>
+            Create Post
+          </SettingsOption>
+        </SettingsOptionContainerLink>
+        <SettingsOptionContainerLink to={`/users/${props.activeUser.id}/edit`}>
+          <SettingsOption>
+            Edit Profile
+          </SettingsOption>
+        </SettingsOptionContainerLink>
+        <SettingsOption onClick={props.handleLogoutUser}>
+          Logout
+        </SettingsOption>
+      </UserSettingsDropdown>
+    </UserSettingsContainer>
+  );
+}
+
 class AppHeader extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      areUserSettingsOpen: false
+    }
+  }
+
   render() {
     if (!localStorage.getItem("authToken")) return null;
 
@@ -110,7 +218,11 @@ class AppHeader extends React.Component {
           <ActionBar>
             <SearchIcon />
             <BoxingGloveIcon />
-            <UserSettingsIcon onClick={this.props.handleLogoutUser} />
+            <UserSettings
+              isOpen={this.state.areUserSettingsOpen}
+              handleToggleSettings={() => this.setState({areUserSettingsOpen: !this.state.areUserSettingsOpen})}
+              {...this.props}
+            />
           </ActionBar>
         </InnerContainer>
       </Header>

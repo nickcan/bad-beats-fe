@@ -27,11 +27,12 @@ const ProfileImage = styled.div`
   position: relative;
   top: 110px;
 
-  border-radius: 100%;
-
   height: 165px;
   width: 165px;
+
   background-color: ${(props) => props.theme.platinum};
+  border: 6px solid ${(props) => props.theme.white};
+  border-radius: 100%;
 `;
 
 const InfoContainer = styled.div`

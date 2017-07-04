@@ -23,6 +23,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={function(props) {
     if (authTokenInUrl) {
       localStorage.setItem("authToken", authTokenInUrl);
+      rest.initializeActiveUser(authTokenInUrl);
       return <Redirect to={{
         pathname: '/',
         state: { from: props.location }
