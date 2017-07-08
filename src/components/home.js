@@ -22,7 +22,7 @@ class Home extends React.Component {
   render() {
     return (
       <FeedContainer>
-        <Feed sport={this.props.match.params.sport} />
+        <Feed {...this.props} sport={this.props.match.params.sport} />
       </FeedContainer>
     )
   }

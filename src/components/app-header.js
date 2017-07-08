@@ -149,6 +149,14 @@ const SettingsHeader = styled.div`
   cursor: pointer;
 `;
 
+const LoginHeader = styled(SettingsHeader)`
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 0;
+
+  border-bottom: 0;
+`;
+
 const SettingsOption = styled.div`
   box-sizing: border-box;
   padding: 12px 20px;
@@ -169,31 +177,44 @@ const UserSettings = function({
 }) {
   if (!props.isOpen) return <UserSettingsIcon onClick={props.handleToggleSettings} />;
 
-  return (
-    <UserSettingsContainer onClick={props.handleToggleSettings}>
-      <UserSettingsIcon />
-      <UserSettingsDropdown>
-        <SettingsOptionContainerLink to={`/users/${props.activeUser.id}`}>
-          <SettingsHeader>
-            {props.activeUser.name}
-          </SettingsHeader>
-        </SettingsOptionContainerLink>
-        <SettingsOptionContainerLink to={`/posts/new`}>
-          <SettingsOption>
-            Create Post
+  if (props.activeUser.id) {
+    return (
+      <UserSettingsContainer onClick={props.handleToggleSettings}>
+        <UserSettingsIcon />
+        <UserSettingsDropdown>
+          <SettingsOptionContainerLink to={`/users/${props.activeUser.id}`}>
+            <SettingsHeader>
+              {props.activeUser.name}
+            </SettingsHeader>
+          </SettingsOptionContainerLink>
+          <SettingsOptionContainerLink to={`/posts/new`}>
+            <SettingsOption>
+              Create Post
+            </SettingsOption>
+          </SettingsOptionContainerLink>
+          <SettingsOptionContainerLink to={`/users/${props.activeUser.id}/edit`}>
+            <SettingsOption>
+              Edit Profile
+            </SettingsOption>
+          </SettingsOptionContainerLink>
+          <SettingsOption onClick={props.handleLogoutUser}>
+            Logout
           </SettingsOption>
-        </SettingsOptionContainerLink>
-        <SettingsOptionContainerLink to={`/users/${props.activeUser.id}/edit`}>
-          <SettingsOption>
-            Edit Profile
-          </SettingsOption>
-        </SettingsOptionContainerLink>
-        <SettingsOption onClick={props.handleLogoutUser}>
-          Logout
-        </SettingsOption>
-      </UserSettingsDropdown>
-    </UserSettingsContainer>
-  );
+        </UserSettingsDropdown>
+      </UserSettingsContainer>
+    );
+  } else {
+    return (
+      <UserSettingsContainer onClick={props.handleToggleSettings}>
+        <UserSettingsIcon />
+        <UserSettingsDropdown>
+          <SettingsOptionContainerLink to={`/login`}>
+            <LoginHeader>Login</LoginHeader>
+          </SettingsOptionContainerLink>
+        </UserSettingsDropdown>
+      </UserSettingsContainer>
+    );
+  }
 }
 
 class AppHeader extends React.Component {
@@ -205,8 +226,12 @@ class AppHeader extends React.Component {
     }
   }
 
+  shouldRenderHeader() {
+    return window.innerWidth < 650 && (this.props.location.pathname === "/login" || this.props.location.pathname === "/signup");
+  }
+
   render() {
-    if (!localStorage.getItem("authToken")) return null;
+    if (this.shouldRenderHeader()) return null;
 
     return (
       <Header>
