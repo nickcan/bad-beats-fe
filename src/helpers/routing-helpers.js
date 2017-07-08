@@ -12,7 +12,7 @@ export const AuthenticationRoute = ({ component: Component, ...rest }) => {
         state: {from: props.location}
       }}/>
     ) : (
-      !rest.isLoginModal ? <Component {...props} /> : null
+      !rest.shouldRenderComponent ? <Component {...props} /> : null
     )
   )}/>
 };
@@ -37,7 +37,7 @@ export const HomeRoute = ({ component: Component, ...rest }) => {
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={function(props) {
     if (localStorage.getItem("authToken")) {
-      return <Component {...props} />
+      return !rest.shouldRenderComponent ? <Component {...props} /> : null;
     } else {
       return <Redirect to={{
         pathname: '/login',

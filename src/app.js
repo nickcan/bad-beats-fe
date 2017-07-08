@@ -13,6 +13,7 @@ import AppHeader from "./components/app-header";
 import AuthenticationForm from "./containers/authentication-form";
 import Home from "./components/home";
 import Modal from "./components/modal";
+import PostForm from "./containers/post-form";
 import PageNotFound from "./components/page-not-found";
 import UserProfile from "./containers/user-profile";
 
@@ -23,6 +24,14 @@ const AuthModal = ({
 }) => (
   <Modal {...props}>
     <AuthenticationForm {...props} />
+  </Modal>
+);
+
+const PostsModal = ({
+  ...props
+}) => (
+  <Modal {...props}>
+    <PostForm {...props} />
   </Modal>
 );
 
@@ -43,6 +52,11 @@ class App extends React.Component {
       (location.pathname === "/login" || location.pathname === "/signup")
     );
 
+    const isPostsModal = !!(
+      window.innerWidth > 650 &&
+      location.pathname === "/posts/new"
+    );
+
     return (
       <div>
         <AppHeader
@@ -55,13 +69,17 @@ class App extends React.Component {
           <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} exact path="/" component={Home} />
           <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} path="/sports/:sport" component={Home} />
           <PrivateRoute path="/users/:id" component={UserProfile} />
-          <AuthenticationRoute path="/login" isLoginModal={isLoginModal} component={AuthenticationForm} />
-          <AuthenticationRoute path="/signup" isLoginModal={isLoginModal} component={AuthenticationForm} />
+          <PrivateRoute path="/posts/new" shouldRenderComponent={isPostsModal} component={PostForm} />
+          <AuthenticationRoute path="/login" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
+          <AuthenticationRoute path="/signup" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
           <Route component={PageNotFound} />
         </Switch>
-        {isLoginModal ? <Route render={() => <Home {...this.props} isLoginModal={isLoginModal} />} /> : null}
+        {isLoginModal || isPostsModal ? <Route render={() => <Home {...this.props} isLoginModal={isLoginModal} />} /> : null}
+
         {isLoginModal ? <Route path='/login' component={AuthModal} /> : null}
         {isLoginModal ? <Route path='/signup' component={AuthModal} /> : null}
+
+        {isPostsModal ? <Route path='/posts/new' component={PostsModal} /> : null}
       </div>
     );
   }
