@@ -53,8 +53,6 @@ const SettingsOptionContainerLink = styled(Link)`
 `;
 
 const SettingsHeader = styled.div`
-  box-sizing: border-box;
-
   margin-bottom: 10px;
   padding: 20px;
   width: 100%;
@@ -73,7 +71,6 @@ const LoginHeader = styled(SettingsHeader)`
 `;
 
 const SettingsOption = styled.div`
-  box-sizing: border-box;
   padding: 12px 20px;
   width: 100%;
 
@@ -102,17 +99,15 @@ const UserIconActions = function({
               {props.activeUser.name}
             </SettingsHeader>
           </SettingsOptionContainerLink>
-          <SettingsOptionContainerLink to={`/posts/new`}>
-            <SettingsOption>
-              Create Post
-            </SettingsOption>
-          </SettingsOptionContainerLink>
+          <SettingsOption onClick={props.togglePostFormView}>
+            Create Post
+          </SettingsOption>
           <SettingsOptionContainerLink to={`/users/${props.activeUser.id}/edit`}>
             <SettingsOption>
               Edit Profile
             </SettingsOption>
           </SettingsOptionContainerLink>
-          <SettingsOption onClick={props.handleLogoutUser}>
+          <SettingsOption onClick={props.logoutUser}>
             Logout
           </SettingsOption>
         </UserSettingsDropdown>

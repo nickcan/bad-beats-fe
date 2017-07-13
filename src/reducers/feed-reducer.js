@@ -37,6 +37,16 @@ const feed = function(state = initialState, action) {
       }
     }
 
+    case "ADD_NEW_POST": {
+      return {
+        ...state,
+        posts: {
+          [action.payload.id]: action.payload,
+          ...state.posts
+        }
+      }
+    }
+
     case "APPEND_COMMENTS": {
       const post = state.posts[action.payload.postId];
       const comments = post.comments.length === 5 ? action.payload.comments : [...post.comments, ...action.payload.comments];

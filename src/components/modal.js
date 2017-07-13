@@ -20,10 +20,12 @@ const Container = styled(OuterContainer)`
 `;
 
 const InnerContainer = styled.div`
-  min-height: 300px;
-  width: 500px;
+  overflow: scroll;
 
   padding: 15px;
+  min-height: 300px;
+  max-height: 100vh;
+  width: 500px;
 
   background-color: ${(props) => props.theme.babyPowder};
   border-radius: 3px;
@@ -32,6 +34,9 @@ const InnerContainer = styled.div`
 
   @media (max-width: 650px) {
     width: 100%;
+    height: 100vh;
+
+    border-radius: 0;
   }
 `;
 
@@ -39,7 +44,7 @@ class Modal extends Component {
   render() {
     return (
       <Container>
-        <OuterContainer onClick={() => this.props.history.push("/")} />
+        <OuterContainer onClick={this.props.handleClose} />
         <InnerContainer>
           {this.props.children}
         </InnerContainer>

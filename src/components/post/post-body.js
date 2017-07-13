@@ -11,10 +11,8 @@ const BodyContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
-  box-sizing: border-box;
   color: ${(props) => props.theme.davysGray};
   font-size: 18px;
-  font-family: ${(props) => props.theme.mainFont};
   line-height: 22px;
   font-weight: 100;
   margin: 5px 0 20px;

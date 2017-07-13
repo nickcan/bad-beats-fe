@@ -51,9 +51,12 @@ const LogoContainerLink = styled(Link)`
 
 const LogoName = styled.div`
   color: ${(props) => props.theme.babyPowder};
-  font-family: ${(props) => props.theme.mainFont};
   font-size: 18px;
   font-weight: 200;
+
+  @media (max-width: 650px) {
+    display: none;
+  }
 `;
 
 const ActionBar = styled.div`
@@ -113,7 +116,7 @@ class AppHeader extends React.Component {
           </LogoContainerLink>
           <ActionBar>
             <SearchIcon />
-            <BoxingGloveIcon />
+            <BoxingGloveIcon onClick={this.props.togglePostFormView} />
             <UserIconActions
               isOpen={this.state.areUserIconActionsOpen}
               handleToggleSettings={() => this.setState({areUserIconActionsOpen: !this.state.areUserIconActionsOpen})}

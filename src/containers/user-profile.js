@@ -43,10 +43,6 @@ const InfoContainer = styled.div`
   margin: 60px auto;
   width: 650px;
 
-  font-family: ${(props) => props.theme.mainFont};
-
-  box-sizing: border-box;
-
   @media (max-width: 650px) {
     width: 100%;
   }
@@ -58,7 +54,6 @@ const Name = styled.div`
   padding: 0 10px;
 
   color: ${(props) => props.theme.charlestonGreen};
-  font-family: ${(props) => props.theme.mainFont};
   font-size: 32px;
   text-align: center;
 `;
