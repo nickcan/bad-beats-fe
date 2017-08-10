@@ -14,9 +14,12 @@ const TextContainer = styled.div`
   color: ${(props) => props.theme.davysGray};
   font-size: 18px;
   line-height: 22px;
-  font-weight: 100;
+  font-weight: 200;
   margin: 5px 0 20px;
   padding: 0 40px;
+
+  white-space: pre-wrap;
+  word-wrap: break-word;
 
   @media (max-width: 500px) {
     padding: 0 15px;

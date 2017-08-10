@@ -91,6 +91,8 @@ const StyledTextarea = styled.textarea`
   border: 1px solid ${props => props.theme.gainsboro};
   border-radius: 3px;
   outline: none;
+
+  resize: vertical;
 `;
 
 const AddPhoto = styled(Dropzone)`
