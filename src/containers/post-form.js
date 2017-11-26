@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 import * as PostFormActions from "../actions/post-form-actions";
 
-import Modal from "../components/modal";
 import PostImage from "../components/post/post-image";
 
 import cameraIcon from "../static-assets/camera_icon.png";
@@ -15,7 +14,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  width: 550px;
+
+  margin: 50px auto;
+
   @media (max-width: 650px) {
+    width: 96%;
+
+    margin: 15px auto;
     padding: 20px 5px;
   }
 `;
@@ -116,22 +122,27 @@ const PhotoSelection = function({
 }
 
 class PostForm extends React.Component {
-  render() {
-    if (!this.props.isPostsFormOpen) return null;
+  async submitForm() {
+    await this.props.sendPostFormData();
+    this.props.history.push("/");
+  }
 
+  componentWillUnmount() {
+    this.props.resetPostForm();
+  }
+
+  render() {
     return (
-      <Modal handleClose={() => this.props.togglePostFormView()}>
-        <Container>
-          <PostHeadline>Create a Bad Beat</PostHeadline>
-          <SelectSport {...this.props} />
-          <StyledTextarea value={this.props.text} onChange={(event) => this.props.updatePostForm({field: "text", value: event.target.value})} />
-          <PhotoSelection {...this.props} />
-          <ButtonContainer>
-            <CancelButton onClick={() => this.props.togglePostFormView()}>Cancel</CancelButton>
-            <SubmitButton onClick={this.props.sendPostFormData}>Save Post</SubmitButton>
-          </ButtonContainer>
-        </Container>
-      </Modal>
+      <Container>
+        <PostHeadline>Create a Bad Beat</PostHeadline>
+        <SelectSport {...this.props} />
+        <StyledTextarea value={this.props.text} onChange={(event) => this.props.updatePostForm({field: "text", value: event.target.value})} />
+        <PhotoSelection {...this.props} />
+        <ButtonContainer>
+          <CancelButton onClick={this.props.history.goBack}>Cancel</CancelButton>
+          <SubmitButton onClick={() => this.submitForm()}>Save Post</SubmitButton>
+        </ButtonContainer>
+      </Container>
     );
   }
 }

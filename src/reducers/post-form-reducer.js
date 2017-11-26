@@ -8,6 +8,10 @@ const initialState = {
 
 const postForm = function(state = initialState, action) {
   switch(action.type) {
+    case "RESET_POST_FORM": {
+      return initialState;
+    }
+
     case "TOGGLE_POST_FORM_VIEW": {
       // If true, then reset the form
       if (state.isPostsFormOpen) {

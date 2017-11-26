@@ -78,7 +78,7 @@ const SearchIcon = styled.div`
   }
 `;
 
-const BoxingGloveIcon = styled.div`
+const BoxingGloveIcon = styled(Link)`
   background: url(${glove}) no-repeat center center;
   background-size: 100% 100%;
   cursor: pointer;
@@ -116,7 +116,7 @@ class AppHeader extends React.Component {
           </LogoContainerLink>
           <ActionBar>
             <SearchIcon />
-            <BoxingGloveIcon onClick={this.props.togglePostFormView} />
+            <BoxingGloveIcon to="/posts/new" />
             <UserIconActions
               isOpen={this.state.areUserIconActionsOpen}
               handleToggleSettings={() => this.setState({areUserIconActionsOpen: !this.state.areUserIconActionsOpen})}

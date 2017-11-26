@@ -2,8 +2,8 @@ import { createAction } from "redux-actions";
 
 import { createPost } from "../api-fetchers/post-fetcher";
 
-export const togglePostFormView = createAction("TOGGLE_POST_FORM_VIEW");
 export const updatePostForm = createAction("UPDATE_POST_FORM");
+export const resetPostForm = createAction("RESET_POST_FORM");
 
 const addNewPost = createAction("ADD_NEW_POST");
 const updatePostFormImage = createAction("UPDATE_POST_FORM_IMAGE");
@@ -38,7 +38,6 @@ export const sendPostFormData = function() {
     const formData = buildForm(postFormState);
     const response = await createPost(formData);
     dispatch(addNewPost(response));
-    dispatch(togglePostFormView());
   }
 }
 

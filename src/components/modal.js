@@ -25,7 +25,6 @@ const InnerContainer = styled.div`
   padding: 15px;
   min-height: 300px;
   max-height: 100vh;
-  width: 500px;
 
   background-color: ${(props) => props.theme.babyPowder};
   border-radius: 3px;

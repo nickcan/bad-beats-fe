@@ -9,7 +9,6 @@ import styled from "styled-components";
 
 import * as ActiveUserActions from "./actions/active-user-actions";
 import * as FeedActions from "./actions/feed-actions";
-import { togglePostFormView } from "./actions/post-form-actions";
 
 import AppHeader from "./components/app-header";
 import AuthenticationForm from "./containers/authentication-form";
@@ -24,8 +23,16 @@ import { AuthenticationRoute, HomeRoute, PrivateRoute } from "./helpers/routing-
 const AuthModal = ({
   ...props
 }) => (
-  <Modal {...props} handleClose={() => this.props.history.push("/")}>
+  <Modal {...props} handleClose={props.history.goBack}>
     <AuthenticationForm {...props} />
+  </Modal>
+);
+
+const PostModal = ({
+  ...props
+}) => (
+  <Modal {...props} handleClose={props.history.goBack}>
+    <PostForm {...props} />
   </Modal>
 );
 
@@ -50,18 +57,18 @@ class App extends React.Component {
 
     const isLoginModal = !!(
       window.innerWidth > 650 &&
-      (location.pathname === "/login" || location.pathname === "/signup")
+      (location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/posts/new")
     );
 
     return (
       <AppContainer>
-        <PostForm />
         <AppHeader {...this.props} />
 
         <Switch>
           <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} exact path="/" component={Home} />
           <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} path="/sports/:sport" component={Home} />
           <PrivateRoute path="/users/:id" component={UserProfile} />
+          <PrivateRoute path="/posts/new" shouldRenderComponent={isLoginModal} component={PostForm} />
           <AuthenticationRoute path="/login" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
           <AuthenticationRoute path="/signup" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
           <Route component={PageNotFound} />
@@ -69,6 +76,7 @@ class App extends React.Component {
         {isLoginModal ? <Route render={() => <Home {...this.props} isLoginModal={isLoginModal} />} /> : null}
         {isLoginModal ? <Route path='/login' component={AuthModal} /> : null}
         {isLoginModal ? <Route path='/signup' component={AuthModal} /> : null}
+        {isLoginModal ? <PrivateRoute path="/posts/new" component={PostModal} /> : null}
       </AppContainer>
     );
   }
@@ -86,9 +94,6 @@ const mapDispatchToProps = function(dispatch, props) {
       } else {
         props.history.push("/");
       }
-    },
-    togglePostFormView: function() {
-      dispatch(togglePostFormView());
     }
   };
 };
