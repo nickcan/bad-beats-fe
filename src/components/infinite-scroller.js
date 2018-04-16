@@ -36,6 +36,10 @@ class InfiniteScroller extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    window.onscroll = null;
+  }
+
   render() {
     return this.props.children;
   }

@@ -10,6 +10,9 @@ import InfiniteScroller from "../components/infinite-scroller";
 import PlaceholderPost from "../components/placeholder-post";
 import Post from "../components/post";
 
+// Login and signup have routes
+// Don't refetch when opening/closing routes
+
 const PostsContainer = styled.div`
   width: 100%;
 
@@ -22,18 +25,28 @@ class Feed extends React.Component {
   constructor(props) {
     super(props);
 
-    props.getPosts({
-      sport: props.sport,
-      userId: props.userId
-    });
+    if ((!props.isLoginModal && Object.keys(props.feed.posts).length === 0) || this.props.userId) {
+      props.getPosts({
+        sport: props.sport,
+        userId: props.userId
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.sport !== nextProps.sport || this.props.userId !== nextProps.userId) {
+      this.props.resetFeed();
+      window.scrollTo(0, 0);
       this.props.getPosts({
         sport: nextProps.sport,
         userId: nextProps.userId
       });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.userId) {
+      this.props.resetFeed();
     }
   }
 

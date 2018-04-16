@@ -36,7 +36,7 @@ class PostImage extends React.Component {
     return (
       <ImageContainer isLoading={this.state.isLoading}>
         <Loader isLoading={this.state.isLoading} />
-        <LazyLoad offset={400}>
+        <LazyLoad height={300} offset={400}>
           <img
             src={this.props.image.url} alt=""
             onLoad={() => this.setState({isLoading: false})}

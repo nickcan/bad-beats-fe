@@ -16,8 +16,6 @@ const Container = styled.div`
 
   padding-bottom: 25px;
   width: 100%;
-
-  font-family: ${(props) => props.theme.mainFont};
 `;
 
 const SubContainer = styled.div`
@@ -26,9 +24,9 @@ const SubContainer = styled.div`
   align-items: center;
 
   padding-top: 50px;
-  width: 600px;
+  width: 500px;
 
-  @media (max-width: 600) {
+  @media (max-width: 650px) {
     width: 100%;
   }
 `;
@@ -103,8 +101,6 @@ const InputFieldContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  box-sizing: border-box;
-
   margin-bottom: 8px;
   padding: 8px 10px;
   width: 100%;

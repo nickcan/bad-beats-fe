@@ -1,20 +1,47 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
-  Route,
-  Switch
+  Switch,
+  Route
 } from "react-router-dom";
 import React from "react";
+import styled from "styled-components";
 
 import * as ActiveUserActions from "./actions/active-user-actions";
+import * as FeedActions from "./actions/feed-actions";
 
 import AppHeader from "./components/app-header";
 import AuthenticationForm from "./containers/authentication-form";
 import Home from "./components/home";
+import Modal from "./components/modal";
+import PostForm from "./containers/post-form";
 import PageNotFound from "./components/page-not-found";
 import UserProfile from "./containers/user-profile";
 
-import { AuthenticationRoute, PrivateRoute } from "./helpers/routing-helpers";
+import { AuthenticationRoute, HomeRoute, PrivateRoute } from "./helpers/routing-helpers";
+
+const AuthModal = ({
+  ...props
+}) => (
+  <Modal {...props} handleClose={props.history.goBack}>
+    <AuthenticationForm {...props} />
+  </Modal>
+);
+
+const PostModal = ({
+  ...props
+}) => (
+  <Modal {...props} handleClose={props.history.goBack}>
+    <PostForm {...props} />
+  </Modal>
+);
+
+const AppContainer = styled.div`
+  * {
+    box-sizing: border-box;
+    font-family: ${props => props.theme.mainFont};
+  }
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -26,22 +53,31 @@ class App extends React.Component {
   }
 
   render() {
+    const { location } = this.props;
+
+    const isLoginModal = !!(
+      window.innerWidth > 650 &&
+      (location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/posts/new")
+    );
+
     return (
-      <div>
-        <AppHeader
-          activeUser={this.props.activeUser}
-          handleLogoutUser={this.props.logoutUser}
-        />
+      <AppContainer>
+        <AppHeader {...this.props} />
 
         <Switch>
-          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} exact path="/" component={Home} />
-          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/sports/:sport" component={Home} />
-          <PrivateRoute initializeActiveUser={this.props.initializeActiveUser} path="/users/:id" component={UserProfile} />
-          <AuthenticationRoute path="/login" component={AuthenticationForm} />
-          <AuthenticationRoute path="/signup" component={AuthenticationForm} />
+          <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} exact path="/" component={Home} />
+          <HomeRoute initializeActiveUser={this.props.initializeActiveUser} getPosts={this.props.getPosts} path="/sports/:sport" component={Home} />
+          <PrivateRoute path="/users/:id" component={UserProfile} />
+          <PrivateRoute path="/posts/new" shouldRenderComponent={isLoginModal} component={PostForm} />
+          <AuthenticationRoute path="/login" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
+          <AuthenticationRoute path="/signup" shouldRenderComponent={isLoginModal} component={AuthenticationForm} />
           <Route component={PageNotFound} />
         </Switch>
-      </div>
+        {isLoginModal ? <Route render={() => <Home {...this.props} isLoginModal={isLoginModal} />} /> : null}
+        {isLoginModal ? <Route path='/login' component={AuthModal} /> : null}
+        {isLoginModal ? <Route path='/signup' component={AuthModal} /> : null}
+        {isLoginModal ? <PrivateRoute path="/posts/new" component={PostModal} /> : null}
+      </AppContainer>
     );
   }
 }
@@ -49,10 +85,15 @@ class App extends React.Component {
 const mapDispatchToProps = function(dispatch, props) {
   return {
     ...bindActionCreators(ActiveUserActions, dispatch),
+    ...bindActionCreators(FeedActions, dispatch),
     logoutUser: function() {
       dispatch(ActiveUserActions.logoutUser());
       localStorage.setItem("authToken", "");
-      props.history.push("/login");
+      if (props.location.pathname === "/") {
+        dispatch(FeedActions.getPosts());
+      } else {
+        props.history.push("/");
+      }
     }
   };
 };

@@ -9,7 +9,6 @@ const CommentsContainer = styled.div`
 `;
 
 const Comment = styled.div`
-  font-family: ${(props) => props.theme.mainFont};
   padding-bottom: 8px;
 `;
 
@@ -38,7 +37,6 @@ const CommentDate = styled.div`
 `;
 
 const CommentInput = styled.input`
-  box-sizing: border-box;
   border: 1px solid ${(props) => props.theme.gainsboro};
   font-size: 14px;
   outline: none;
